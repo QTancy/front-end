@@ -1,12 +1,12 @@
 ## Dokumentasi
 
-Saat pertama kali clone lakukan : 
+Saat pertama kali clone lakukan :
 
 ```bash
 npm install
 ```
 
-Kemudian untuk menjalankan development server dengan : 
+Kemudian untuk menjalankan development server dengan :
 
 ```bash
 npm run dev
