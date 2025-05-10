@@ -6,11 +6,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary : #22C55E;
-  --secondary : #3E54D3;
-  --primary-text : #171717;
-  --secondary-text : #ffffff;
-  --on-background : #828282;
+  --primary: #22c55e;
+  --secondary: #3e54d3;
+  --primary-text: #171717;
+  --secondary-text: #ffffff;
+  --on-background: #828282;
 }
 
 @theme inline {
@@ -24,13 +24,11 @@
   :root {
     --foreground: #0a0a0a;
     --background: #ededed;
-    --primary : #22C55E;
-    --secondary : #3E54D3;
-    --primary-text : #171717;
-    --secondary-text : #ffffff;
-    --on-background : #828282;
-
-    
+    --primary: #22c55e;
+    --secondary: #3e54d3;
+    --primary-text: #171717;
+    --secondary-text: #ffffff;
+    --on-background: #828282;
   }
 }
 
@@ -40,12 +38,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
 .custom-button-primary {
   background-color: var(--primary);
   color: var(--background);
-  
-  
 }
 
 .custom-button-secondary {
@@ -58,12 +53,11 @@ body {
   color: var(--background);
 }
 
-
 .link-in-sign-form {
-  color: #3E54D3;
+  color: #3e54d3;
   text-decoration: none;
 }
 
-.link-in-sign-form:hover{
+.link-in-sign-form:hover {
   cursor: pointer;
 }
