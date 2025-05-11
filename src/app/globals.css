@@ -71,6 +71,14 @@ body {
   color: var(--secondary);
 }
 
+.color-text-background {
+  color : var(--background)
+}
+
+.color-text-on-background {
+  color : var(--on-background);
+}
+
 .body-color-background {
   background-color: var(--background);
 }
@@ -81,4 +89,34 @@ body {
 
 .body-color-primary { 
   background-color: var(--primary);
+}
+
+
+.faq-items { 
+  /* w-full flex flex-row gap-2.5 justify-between rounded-xl px-8 py-6 */
+  width: 100%;
+  display : flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  border-radius: 24px;
+  padding : 24px 32px;
+  
+  color: var(--background);
+  background-color: var(--primary);
+}
+
+.hide {
+  display: none;
+}
+
+.faq-wrapper {
+  display: flex;
+  flex-direction:column;
+}
+
+
+.faq-wrapper:hover .hide{
+  display: block;
 }

@@ -1,4 +1,4 @@
-import HeadNavigation from '@/components/header/component';
+import HeadNavigation from '@/components/header/head-navigation';
 
 export default function Homepage() {
   return <HeadNavigation />;

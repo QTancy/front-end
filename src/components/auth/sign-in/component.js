@@ -1,5 +1,5 @@
 import Button from '@/components/ui/buttons/buttons';
-import IconsWrapper from '@/components/ui/icons/icons';
+import IconsWrapper from '@/components/ui/wrapper/icons-wrapper';
 import {
   AppLogo,
   FacebookLogo,

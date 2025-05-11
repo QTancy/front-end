@@ -1,6 +1,6 @@
 import SignInForm from '@/components/auth/sign-in/component';
 import SignUpForm from '@/components/auth/sign-up/component';
-import HeadNavigation from '@/components/header/component';
+import HeadNavigation from '@/components/header/head-navigation';
 
 export default function SignUp() {
   return (

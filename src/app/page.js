@@ -1,18 +1,34 @@
-import HeadNavigation from '@/components/header/component';
+import HeadNavigation from '@/components/header/head-navigation';
+import RootWraper from '@/components/ui/wrapper/root-wrapper';
 import BodySection from '@/layout/bodysection';
+import FAQSection from '@/layout/faqsection';
+import FooterSection from '@/layout/footersection';
 import HeroSection from '@/layout/herosection';
 
 
 export default function Home() {
   return(
     <div className="w-full">
-      <div className="w-full flex flex-col gap-38 mb-30">
-        <HeadNavigation />
-        <HeroSection />
-      </div>
-      <div className="w-full flex flex-col gap-38 body-color-background-secondary">
-        <BodySection />
-      </div>
+      {/* HERO SECTION */}
+      <RootWraper >
+        <HeadNavigation/>
+        <HeroSection/>
+      </RootWraper>
+
+      {/* BODY SECTION */}
+      <RootWraper color={"secondary"}>
+        <BodySection/>
+      </RootWraper>
+
+      {/* FAQ SECTION */}
+      <RootWraper>
+        <FAQSection/>
+      </RootWraper>
+      
+      {/* FOOTER SECTION */}
+      <RootWraper color={"secondary"}>
+        <FooterSection/>
+      </RootWraper>
     </div>
   );
 }
