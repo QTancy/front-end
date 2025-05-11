@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function HeadNavigation() {
   return (
-    <div className='w-full flex justify-center items-center'>
+    <div className="w-full flex justify-center items-center">
       <nav className="max-w-[1273px] w-full flex justify-between items-center p-4">
         <Image
           src={AppLogo.src}

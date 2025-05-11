@@ -5,29 +5,28 @@ import FAQSection from '@/layout/faqsection';
 import FooterSection from '@/layout/footersection';
 import HeroSection from '@/layout/herosection';
 
-
 export default function Home() {
-  return(
+  return (
     <div className="w-full">
       {/* HERO SECTION */}
-      <RootWraper >
-        <HeadNavigation/>
-        <HeroSection/>
+      <RootWraper>
+        <HeadNavigation />
+        <HeroSection />
       </RootWraper>
 
       {/* BODY SECTION */}
-      <RootWraper color={"secondary"}>
-        <BodySection/>
+      <RootWraper color={'secondary'}>
+        <BodySection />
       </RootWraper>
 
       {/* FAQ SECTION */}
       <RootWraper>
-        <FAQSection/>
+        <FAQSection />
       </RootWraper>
-      
+
       {/* FOOTER SECTION */}
-      <RootWraper color={"secondary"}>
-        <FooterSection/>
+      <RootWraper color={'secondary'}>
+        <FooterSection />
       </RootWraper>
     </div>
   );
