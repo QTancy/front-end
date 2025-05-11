@@ -5,6 +5,7 @@
 
 :root {
   --background: #ffffff;
+  --background-secondary : #060A17;
   --foreground: #171717;
   --primary: #22c55e;
   --secondary: #3e54d3;
@@ -22,8 +23,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground: #0a0a0a;
-    --background: #ededed;
+    --foreground: #ededed;
+    --background: #0a0a0a;
     --primary: #22c55e;
     --secondary: #3e54d3;
     --primary-text: #171717;
@@ -60,4 +61,24 @@ body {
 
 .link-in-sign-form:hover {
   cursor: pointer;
+}
+
+.color-text-primary {
+  color: var(--primary);
+}
+
+.color-text-secondary {
+  color: var(--secondary);
+}
+
+.body-color-background {
+  background-color: var(--background);
+}
+
+.body-color-background-secondary {
+  background-color: var(--background-secondary) ;
+}
+
+.body-color-primary { 
+  background-color: var(--primary);
 }
