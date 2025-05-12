@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light Mode */
 :root {
   --background: #ffffff;
   --background-secondary: #060a17;
@@ -21,6 +22,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Dark Mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground: #ededed;

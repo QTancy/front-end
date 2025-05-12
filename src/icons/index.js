@@ -15,6 +15,7 @@ import CallPrimaryLogo from './call-primary-logo.svg';
 import EmailPrimaryLogo from './email-primary-logo.svg';
 import LocationPrimaryLogo from './location-primary-logo.svg';
 
+
 export {
   AppLogo,
   GoogleLogo,

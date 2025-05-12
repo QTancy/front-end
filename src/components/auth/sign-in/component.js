@@ -8,6 +8,7 @@ import {
   TwitterLogo,
 } from '@/icons';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function SignInForm() {
   return (
@@ -36,7 +37,9 @@ export default function SignInForm() {
             autoComplete="password"
             required
           />
-          <Button color="secondary" text="Sign In" />
+          <Link href="/homepage">
+            <Button color="secondary" text="Completed" />
+          </Link>
         </form>
         <div className=" w-full flex items-center justify-center m-3">
           <p>or continue with</p>
