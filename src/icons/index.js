@@ -14,7 +14,8 @@ import PieChartLogo from './pie-chart-logo.svg';
 import CallPrimaryLogo from './call-primary-logo.svg';
 import EmailPrimaryLogo from './email-primary-logo.svg';
 import LocationPrimaryLogo from './location-primary-logo.svg';
-
+import NotificationLogo from './notification-logo.svg';
+import ProfilePicture from './profile-picture.svg';
 
 export {
   AppLogo,
@@ -33,4 +34,6 @@ export {
   CallPrimaryLogo,
   EmailPrimaryLogo,
   LocationPrimaryLogo,
+  NotificationLogo,
+  ProfilePicture,
 };
