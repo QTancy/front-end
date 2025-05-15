@@ -1,33 +1,33 @@
-import HeadNavigation from '@/components/header/head-navigation';
-import RootWraper from '@/components/ui/wrapper/root-wrapper';
+import RootWrapper from '@/components/ui/wrapper/root-wrapper';
+import HeaderSection from '@/layout/headersection';
+import HeroSection from '@/layout/herosection';
 import BodySection from '@/layout/bodysection';
 import FAQSection from '@/layout/faqsection';
 import FooterSection from '@/layout/footersection';
-import HeroSection from '@/layout/herosection';
 
 export default function Home() {
   return (
     <div className="w-full">
-      {/* HERO SECTION */}
-      <RootWraper>
-        <HeadNavigation />
+      {/* ================= HEADER & HERO SECTION ================ */}
+      <RootWrapper>
+        <HeaderSection />
         <HeroSection />
-      </RootWraper>
+      </RootWrapper>
 
-      {/* BODY SECTION */}
-      <RootWraper color={'secondary'}>
+      {/* ===================== BODY SECTION ===================== */}
+      <RootWrapper color="secondary">
         <BodySection />
-      </RootWraper>
+      </RootWrapper>
 
-      {/* FAQ SECTION */}
-      <RootWraper>
+      {/* ===================== FAQ SECTION ====================== */}
+      <RootWrapper>
         <FAQSection />
-      </RootWraper>
+      </RootWrapper>
 
-      {/* FOOTER SECTION */}
-      <RootWraper color={'secondary'}>
+      {/* ===================== FOOTER SECTION =================== */}
+      <RootWrapper color="secondary">
         <FooterSection />
-      </RootWraper>
+      </RootWrapper>
     </div>
   );
 }
