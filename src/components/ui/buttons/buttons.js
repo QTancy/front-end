@@ -1,3 +1,10 @@
+/**
+ * 
+ * @param {string} color Menentukan warna (bisa : primary, secondary, background, dan foreground)
+ * @param {string} text Kalimat/kata yang muncul pada Button
+ *
+ */
+
 export default function Button({ color, text }) {
   return (
     <button
