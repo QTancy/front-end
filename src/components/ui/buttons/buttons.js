@@ -1,5 +1,5 @@
 /**
- * 
+ *
  * @param {string} color Menentukan warna (bisa : primary, secondary, background, dan foreground)
  * @param {string} text Kalimat/kata yang muncul pada Button
  *

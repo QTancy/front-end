@@ -1,11 +1,10 @@
 /**
- * 
+ *
  * @param {string} header Judul utama
  * @param {string} subHeader Sub judul
  * @param {string} subColor Warna text untuk subHeader (opsi : primary-text atau secondary-text)
- * @returns 
+ * @returns
  */
-
 
 export default function HeaderSubHeader({ header, subHeader, subColor }) {
   return (
