@@ -1,5 +1,12 @@
 'use client';
-
+import Image from 'next/image';
+import {
+  PlusLogo,
+  AnalysisLogo,
+  HomeLogo,
+  SettingLogo,
+  HistoryLogo,
+} from '@/icons';
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -34,38 +41,53 @@ export default function Sidebar() {
           <div className="flex flex-col gap-2">
             <Link
               href="/home"
-              className="bg-[#57DBC2] p-2 rounded flex items-center gap-2"
+              className="bg-[#57DBC2] p-2 rounded flex items-center gap-2 text-black"
               onClick={closeSidebar}
             >
-              🏠 Home
+              <Image src={HomeLogo.src} alt="Home" width={20} height={20} />{' '}
+              Home
             </Link>
             <Link
               href="/qcap"
-              className="bg-[#57DBC2] p-2 rounded flex items-center gap-2"
+              className="bg-[#57DBC2] p-2 rounded flex items-center gap-2 text-black"
               onClick={closeSidebar}
             >
-              ➕ QCap
+              <Image src={PlusLogo.src} alt="QCap" width={20} height={20} />{' '}
+              QCap
             </Link>
             <Link
               href="/history"
-              className="bg-[#57DBC2] p-2 rounded flex items-center gap-2"
+              className="bg-[#57DBC2] p-2 rounded flex items-center gap-2 text-black"
               onClick={closeSidebar}
             >
-              ⏳ History
+              <Image
+                src={HistoryLogo.src}
+                alt="History"
+                width={20}
+                height={20}
+              />{' '}
+              History
             </Link>
             <Link
               href="/qrep"
-              className="bg-[#57DBC2] p-2 rounded flex items-center gap-2"
+              className="bg-[#57DBC2] p-2 rounded flex items-center gap-2 text-black"
               onClick={closeSidebar}
             >
-              📄 QRep
+              <Image src={AnalysisLogo.src} alt="QRep" width={20} height={20} />{' '}
+              QRep
             </Link>
             <Link
               href="/profile"
-              className="bg-[#57DBC2] p-2 rounded flex items-center gap-2"
+              className="bg-[#57DBC2] p-2 rounded flex items-center gap-2 text-black"
               onClick={closeSidebar}
             >
-              ⚙️ Account & Profile
+              <Image
+                src={SettingLogo.src}
+                alt="Profile"
+                width={20}
+                height={20}
+              />{' '}
+              Account & Profile
             </Link>
           </div>
         </aside>

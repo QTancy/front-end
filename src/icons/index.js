@@ -16,6 +16,11 @@ import EmailPrimaryLogo from './email-primary-logo.svg';
 import LocationPrimaryLogo from './location-primary-logo.svg';
 import NotificationLogo from './notification-logo.svg';
 import ProfilePicture from './profile-picture.svg';
+import PlusLogo from './plus-logo.svg';
+import AnalysisLogo from './analysis-logo.svg';
+import HomeLogo from './home-logo.svg';
+import SettingLogo from './setting-logo.svg';
+import HistoryLogo from './history-logo.svg';
 
 export {
   AppLogo,
@@ -36,4 +41,9 @@ export {
   LocationPrimaryLogo,
   NotificationLogo,
   ProfilePicture,
+  PlusLogo,
+  AnalysisLogo,
+  HomeLogo,
+  SettingLogo,
+  HistoryLogo
 };

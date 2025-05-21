@@ -3,6 +3,13 @@ import Button from '../ui/buttons/buttons';
 import Image from 'next/image';
 import Link from 'next/link';
 import Sidebar from '../sidebar/sidebar';
+import {
+  PlusLogo,
+  AnalysisLogo,
+  HomeLogo,
+  SettingLogo,
+  HistoryLogo,
+} from '@/icons';
 
 export default function HeadNavigation() {
   return (
