@@ -111,6 +111,8 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
           {capturedImage ? (
             <Image
               src={capturedImage}
+              width={720}
+              height={1280}
               alt="Preview foto yang diambil"
               className="w-full max-h-[60vh] object-contain rounded-lg"
             />
