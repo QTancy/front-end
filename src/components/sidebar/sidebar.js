@@ -21,7 +21,7 @@ export default function Sidebar() {
       {/* Hamburger Button */}
       <button
         onClick={toggleSidebar}
-        className="text-white text-3xl px-4 focus:outline-none"
+        className="text-black text-3xl px-4 focus:outline-none"
       >
         &#9776;
       </button>
