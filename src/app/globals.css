@@ -18,9 +18,9 @@
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --background-primary : var(--secondary);
-  --color-buttonText : var(--secondary-text);
-  --color-primary : var(--primary);
+  --background-primary: var(--secondary);
+  --color-buttonText: var(--secondary-text);
+  --color-primary: var(--primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
