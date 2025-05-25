@@ -25,7 +25,7 @@ export default function HeroSection() {
           </p>
         </div>
         <div className="flex justify-center items-center w-full my-2">
-          <Button color="secondary" text="Try Now" />
+          <Button color="secondary" text="Try Now"  />
         </div>
       </div>
       <div className="w-full flex justify-end">

@@ -14,7 +14,7 @@ export default function SignInForm() {
   return (
     <div className="w-full flex justify-center gap-72">
       <div className="max-w-[400px] flex flex-col items-center justify-center p-4 rounded-3xl sign-form drop-shadow-xl shadow-xl">
-        <div className="flex flex-col gap-1 justify-center items-center m-3">
+        <div className="flex flex-col text-white gap-1 justify-center items-center m-3">
           <h1 className="font-bold text-3xl">Sign In</h1>
           <p className="text-sm">Enter your email to sign in for this app</p>
         </div>
@@ -41,7 +41,7 @@ export default function SignInForm() {
             <Button color="secondary" text="Completed" />
           </Link>
         </form>
-        <div className=" w-full flex items-center justify-center m-3">
+        <div className=" w-full flex items-center text-white justify-center m-3">
           <p>or continue with</p>
         </div>
 
@@ -51,7 +51,7 @@ export default function SignInForm() {
           <IconsWrapper icon={<FacebookLogo />} alt="Facebook Icon" />
         </div>
 
-        <div className="w-full flex text-center items-center">
+        <div className="w-full flex text-center text-white items-center">
           <p className="text-sm">
             By Clicking continue, you agree to our{' '}
             <a className="link-in-sign-form">Terms of Services</a> and{' '}

@@ -12,13 +12,13 @@ import ButtonLink from '../ui/buttons/buttons-link';
 
 export default function OtherLinkComponent() {
   return (
-    <div className="flex flex-row items-center justify-center w-full gap-16">
+    <div className="flex flex-row items-center justify-between w-full gap-16">
       <div className="flex items-center">
         <Image
           src={PieChartLogo.src}
           alt="Pie Chart Logo"
-          width={PieChartLogo.width}
-          height={PieChartLogo.height}
+          width={200}
+          height={200}
         />
       </div>
       <div className="flex flex-col color-text-primary">

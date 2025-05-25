@@ -15,9 +15,12 @@
   --on-background: #828282;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --background-primary : var(--secondary);
+  --color-buttonText : var(--secondary-text);
+  --color-primary : var(--primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -27,9 +30,10 @@
   :root {
     --foreground: #ededed;
     --background: #0a0a0a;
+    --background-secondary: #ffff;
     --primary: #22c55e;
     --secondary: #3e54d3;
-    --primary-text: #171717;
+    --primary-text: #ffff;
     --secondary-text: #ffffff;
     --on-background: #828282;
   }
@@ -48,12 +52,12 @@ body {
 
 .custom-button-secondary {
   background-color: var(--secondary);
-  color: var(--background);
+  color: var(--secondary-text);
 }
 
 .sign-form {
   background-color: var(--primary);
-  color: var(--background);
+  color: var(--primary-text);
 }
 
 .link-in-sign-form {

@@ -22,8 +22,8 @@ export default function SignUpForm() {
           height={SignUpIllustration.height}
         />
       </div>
-      <div className="max-w-[400px] flex flex-col items-center justify-center p-4 rounded-3xl sign-form drop-shadow-xl shadow-xl">
-        <div className="flex flex-col gap-1 justify-center items-center m-3">
+      <div className="max-w-[400px]  flex flex-col items-center justify-center p-4 rounded-3xl sign-form drop-shadow-xl shadow-xl">
+        <div className="flex flex-col gap-1 justify-center text-white items-center m-3">
           <h1 className="font-bold text-3xl">Sign Up</h1>
           <p className="text-sm">Enter your email to sign up for this app</p>
         </div>
@@ -48,7 +48,7 @@ export default function SignUpForm() {
           />
           <Button color="secondary" text="Sign Up" />
         </form>
-        <div className=" w-full flex items-center justify-center m-3">
+        <div className=" w-full flex items-center text-white justify-center m-3">
           <p>or continue with</p>
         </div>
 
@@ -58,7 +58,7 @@ export default function SignUpForm() {
           <IconsWrapper icon={<FacebookLogo />} alt="Facebook Icon" />
         </div>
 
-        <div className="w-full flex text-center items-center">
+        <div className="w-full flex text-center text-white items-center">
           <p className="text-sm">
             By Clicking continue, you agree to our{' '}
             <a className="link-in-sign-form">Terms of Services</a> and{' '}
