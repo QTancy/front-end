@@ -1,11 +1,23 @@
 import { useState, createElement as h } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
+import {
+  AllLogo,
+  FoodLogo,
+  HiburanLogo,
+  OthersLogo,
+  MedicalLogo,
+  HouseLogo,
+  CarLogo,
+  Bill,
+  TotalExpenses,
+} from '@/icons';
+import Image from 'next/image';
 
 export default function ReceiptAnalyse() {
   const [paymentType, setPaymentType] = useState('All Payment');
   const [timeRange, setTimeRange] = useState('Mingguan');
-  const [selectedKategori, setSelectedKategori] = useState(['Semua']); // multiple selection
+  const [selectedKategori, setSelectedKategori] = useState(['Semua']);
 
   const dataTransaksi = [
     {
@@ -29,13 +41,13 @@ export default function ReceiptAnalyse() {
   ];
 
   const kategoriList = [
-    { nama: 'Semua', icon: '📂' },
-    { nama: 'Makanan & Minuman', icon: '🍽️' },
-    { nama: 'Transportasi', icon: '🚗' },
-    { nama: 'ATK', icon: '📎' },
-    { nama: 'Kesehatan', icon: '💊' },
-    { nama: 'Hiburan', icon: '🎮' },
-    { nama: 'Lainnya', icon: '📌' },
+    { nama: 'Semua', icon: AllLogo },
+    { nama: 'Makanan & Minuman', icon: FoodLogo },
+    { nama: 'Transportasi', icon: CarLogo },
+    { nama: 'ATK', icon: HouseLogo },
+    { nama: 'Kesehatan', icon: MedicalLogo },
+    { nama: 'Hiburan', icon: HiburanLogo },
+    { nama: 'Lainnya', icon: OthersLogo },
   ];
 
   const toggleKategori = (nama) => {
@@ -77,148 +89,263 @@ export default function ReceiptAnalyse() {
     ],
   };
 
-  return h('div', { className: 'flex min-h-screen bg-[#15CDCA]/35' }, [
-    h('main', { className: 'flex-1 p-6 space-y-6' }, [
-      h(
-        'h1',
-        { className: 'text-2xl font-bold text-[#0F172A]' },
-        'Laporan Pengeluaran'
-      ),
-
-      // Filters
-      h('div', { className: 'flex flex-wrap gap-2' }, [
+  return h('main', { className: 'w-full max-w-6xl p-6 space-y-6 mx-auto' }, [
+    h(
+      'div',
+      {
+        className:
+          'bg-white p-6 rounded shadow-md border-[4px] border-[#D9D9D9]',
+      },
+      [
         h(
-          'select',
-          {
-            className:
-              'bg-[#FFFFFF] px-4 py-2 rounded shadow-lg text-[#0F172A]',
-            value: paymentType,
-            onChange: (e) => setPaymentType(e.target.value),
-          },
-          ['Debit', 'Credit', 'All Payment'].map((opt) => h('option', {}, opt))
+          'h1',
+          { className: 'text-2xl font-extrabold text-[var(--primary)]' },
+          'Hello, Jeno! This is Qrep'
         ),
         h(
-          'select',
-          {
-            className:
-              'bg-[#FFFFFF] px-4 py-2 rounded shadow-lg text-[#0F172A]',
-            value: timeRange,
-            onChange: (e) => setTimeRange(e.target.value),
-          },
-          ['Bulanan', 'Mingguan', 'Harian'].map((opt) => h('option', {}, opt))
+          'p',
+          { className: 'text-[#0F172A] mt-1' },
+          'Lihat pengeluaran berdasarkan kategori, tipe payment, atau jangka waktu'
         ),
-      ]),
 
-      // Statistics Cards
-      h('div', { className: 'grid md:grid-cols-2 gap-4' }, [
-        h('div', { className: 'bg-blue-500 rounded-lg p-4 shadow-md' }, [
-          h(
-            'h2',
-            { className: 'font-semibold mb-2 text-white' },
-            'Total Expenses'
-          ),
-          h(
-            'p',
-            { className: 'text-2xl text-white font-bold' },
-            `Rp. ${totalExpenses.toLocaleString()}`
-          ),
-        ]),
-        h('div', { className: 'bg-blue-500 rounded-lg p-4 shadow-md' }, [
-          h(
-            'h2',
-            { className: 'font-semibold mb-2 text-white' },
-            'Total Receipts'
-          ),
-          h(
-            'p',
-            { className: 'text-2xl text-white font-bold' },
-            `${totalReceipts}`
-          ),
-        ]),
-      ]),
-
-      // Charts
-      h('div', { className: 'grid md:grid-cols-2 gap-6' }, [
-        h('div', { className: 'bg-white p-4 rounded shadow-md' }, [
-          h(
-            'h3',
-            { className: 'font-semibold mb-3 text-[#0F172A]' },
-            'Pengeluaran Harian'
-          ),
-          h(Bar, { data: barData }),
-        ]),
-        h('div', { className: 'bg-white p-4 rounded shadow-md' }, [
-          h(
-            'h3',
-            { className: 'font-semibold mb-3 text-[#0F172A]' },
-            'Persentase Kategori'
-          ),
-          h(Pie, { data: pieData }),
-        ]),
-      ]),
-
-      // ✅ Horizontal multi-select kategori buttons
-      h('div', { className: 'flex flex-wrap gap-2' }, [
-        ...kategoriList.map((item, idx) =>
-          h(
-            'button',
-            {
-              key: idx,
-              className: `flex items-center gap-2 px-4 py-2 rounded border font-medium ${
-                selectedKategori.includes(item.nama)
-                  ? item.nama === 'Semua'
-                    ? 'bg-[#15CDCA] border-[#0A918E] text-black'
-                    : 'bg-teal-300 border-teal-600 text-black'
-                  : 'bg-white border-gray-300 hover:bg-teal-100 text-gray-700'
-              }`,
-              onClick: () => toggleKategori(item.nama),
-            },
-            [h('span', {}, item.icon), item.nama]
-          )
-        ),
-      ]),
-
-      // Table
-      h('div', { className: 'bg-white p-4 rounded shadow-md overflow-auto' }, [
-        h(
-          'h3',
-          { className: 'font-semibold mb-3 text-[#0F172A]' },
-          'Histori Transaksi'
-        ),
-        h(
-          'table',
-          { className: 'w-full text-left border-collapse text-[#0F172A]' },
-          [
-            h('thead', {}, [
-              h('tr', { className: 'bg-[#4FE0B6] border-b border-[#CBD5E1]' }, [
-                h('th', { className: 'py-2' }, 'Tanggal'),
-                h('th', {}, 'Jumlah'),
-                h('th', {}, 'Kategori'),
-                h('th', {}, 'Tipe'),
-              ]),
-            ]),
+        h('div', { className: 'flex justify-between items-center mt-6' }, [
+          // Mengubah justify-end menjadi justify-between dan menambahkan items-center
+          h('div', { className: 'font-bold text-xl' }, 'Ringkasan Pengeluaran'), // Tambahkan teks ini di sini
+          h('div', { className: 'flex gap-2' }, [
+            // Bungkus select di dalam div terpisah agar tetap sejajar di kanan
             h(
-              'tbody',
-              {},
-              filteredData.map((t, i) =>
+              'select',
+              {
+                className:
+                  'bg-[#EFEFEF] px-4 py-2 rounded shadow-md text-[#0F172A]',
+                value: paymentType,
+                onChange: (e) => setPaymentType(e.target.value),
+              },
+              ['Semua Payment', 'Debit', 'Credit'].map((opt) =>
+                h('option', { key: opt, value: opt }, opt)
+              )
+            ),
+            h(
+              'select',
+              {
+                className:
+                  'bg-[#EFEFEF] px-4 py-2 rounded shadow-md text-[#0F172A]',
+                value: timeRange,
+                onChange: (e) => setTimeRange(e.target.value),
+              },
+              ['Bulanan', 'Mingguan', 'Harian'].map((opt) =>
+                h('option', { key: opt, value: opt }, opt)
+              )
+            ),
+          ]),
+        ]),
+
+        h(
+          'div',
+          { className: 'mt-5 bg-[#BDF6F1] p-4 rounded-[12px] h-[345px]' },
+          [
+            h(
+              'div',
+              { className: 'grid grid-cols-1 md:grid-cols-3 gap-4 mb-4' },
+              [
                 h(
-                  'tr',
+                  'h2',
                   {
-                    key: i,
-                    className: 'border-b border-[#CBD5E1] hover:bg-[#F1F5F9]',
+                    className: 'font-bold text-lg text-[#0F172A] md:col-span-1',
+                  },
+                  'Total Pengeluaran'
+                ),
+                h(
+                  'h2',
+                  {
+                    className: 'font-bold text-lg text-[#0F172A] md:col-span-2',
+                  },
+                  'Statistics'
+                ),
+              ]
+            ),
+            h(
+              'div',
+              {
+                className: 'grid grid-cols-1 md:grid-cols-3 gap-4 items-start',
+              },
+              [
+                // Card kiri: Total Pengeluaran
+                h(
+                  'div',
+                  {
+                    className:
+                      'md:col-span-1 bg-white p-4 rounded-lg shadow flex gap-4 h-[260px]',
                   },
                   [
-                    h('td', { className: 'py-2' }, t.tanggal),
-                    h('td', {}, `Rp. ${t.jumlah.toLocaleString()}`),
-                    h('td', {}, t.kategori),
-                    h('td', {}, t.tipe),
+                    h(
+                      'div',
+                      {
+                        className:
+                          'bg-[#4F80E2] text-white rounded-[15px] p-4 flex flex-col items-center justify-center w-1/2',
+                      },
+                      [
+                        h(Image, {
+                          src: TotalExpenses.src,
+                          alt: 'Total Expenses',
+                          width: 64,
+                          height: 64,
+                        }),
+                        h(
+                          'p',
+                          { className: 'text-lg mt-2' },
+                          `Rp. ${totalExpenses.toLocaleString()}`
+                        ),
+                      ]
+                    ),
+                    h(
+                      'div',
+                      {
+                        className:
+                          'bg-[#4F80E2] text-white rounded-[15px] p-4 flex flex-col items-center justify-center w-1/2',
+                      },
+                      [
+                        h(Image, {
+                          src: Bill.src,
+                          alt: 'Bill',
+                          width: 48,
+                          height: 48,
+                        }),
+                        h(
+                          'p',
+                          { className: 'text-lg mt-2' },
+                          `${totalReceipts}`
+                        ),
+                      ]
+                    ),
                   ]
-                )
-              )
+                ),
+
+                // Card kanan: Statistik
+                h(
+                  'div',
+                  {
+                    className:
+                      'md:col-span-2 bg-white p-4 rounded-lg shadow h-[260px] flex flex-col justify-between',
+                  },
+                  [
+                    h(
+                      'div',
+                      {
+                        className: 'grid grid-cols-2 gap-4 items-center h-full',
+                      },
+                      [
+                        h(
+                          'div',
+                          {
+                            className: 'flex justify-center',
+                            style: { width: '200px', height: '220px' },
+                          },
+                          [h(Pie, { data: pieData })]
+                        ),
+                        h('div', {}, [
+                          h(
+                            'p',
+                            {
+                              className:
+                                'text-sm text-right mb-1 text-gray-500',
+                            },
+                            '20 - 26 April, 2025'
+                          ),
+                          h(Bar, { data: barData }),
+                        ]),
+                      ]
+                    ),
+                  ]
+                ),
+              ]
             ),
           ]
         ),
-      ]),
-    ]),
+
+        h(
+          'div',
+          { className: 'flex flex-wrap gap-2 mt-4' },
+          kategoriList.map((item, idx) =>
+            h(
+              'button',
+              {
+                key: idx,
+                className: `flex items-center gap-2 px-4 py-2 rounded-[13px] border-[2px] border-[#B9B9B9] font-medium ${
+                  selectedKategori.includes(item.nama)
+                    ? item.nama === 'Semua'
+                      ? 'bg-[#15CDCA] border-[#0A918E] text-white [text-shadow:0px_0px_5px_rgba(0,0,0,0.3)] drop-shadow-md'
+                      : 'bg-[#15CDCA] border-[#0A918E] text-white [text-shadow:0px_0px_5px_rgba(0,0,0,0.3)] drop-shadow-md'
+                    : 'bg-white border-gray-300 hover:bg-teal-100 text-gray-700'
+                }`,
+                onClick: () => toggleKategori(item.nama),
+              },
+              [
+                h(Image, {
+                  src: item.icon.src,
+                  alt: item.nama,
+                  width: 20,
+                  height: 20,
+                  className: selectedKategori.includes(item.nama)
+                    ? 'filter brightness-0 invert'
+                    : '',
+                }),
+                item.nama,
+              ]
+            )
+          )
+        ),
+
+        h(
+          'div',
+          { className: 'bg-white p-4 rounded shadow-md overflow-auto mt-4' },
+          [
+            h(
+              'h3',
+              { className: 'font-semibold mb-3 text-[#0F172A]' },
+              'Histori Transaksi'
+            ),
+            h(
+              'table',
+              { className: 'w-full text-left border-collapse text-[#0F172A]' },
+              [
+                h('thead', {}, [
+                  h(
+                    'tr',
+                    { className: 'bg-[#4FE0B6] border-b border-[#CBD5E1]' },
+                    [
+                      h('th', { className: 'py-2' }, 'Tanggal'),
+                      h('th', {}, 'Jumlah'),
+                      h('th', {}, 'Kategori'),
+                      h('th', {}, 'Tipe'),
+                    ]
+                  ),
+                ]),
+                h(
+                  'tbody',
+                  {},
+                  filteredData.map((t, i) =>
+                    h(
+                      'tr',
+                      {
+                        key: i,
+                        className:
+                          'border-b border-[#CBD5E1] hover:bg-[#F1F5F9]',
+                      },
+                      [
+                        h('td', { className: 'py-2' }, t.tanggal),
+                        h('td', {}, `Rp. ${t.jumlah.toLocaleString()}`),
+                        h('td', {}, t.kategori),
+                        h('td', {}, t.tipe),
+                      ]
+                    )
+                  )
+                ),
+              ]
+            ),
+          ]
+        ),
+      ]
+    ),
   ]);
 }

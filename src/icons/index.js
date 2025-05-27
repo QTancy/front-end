@@ -21,8 +21,19 @@ import AnalysisLogo from './analysis-logo.svg';
 import HomeLogo from './home-logo.svg';
 import SettingLogo from './setting-logo.svg';
 import HistoryLogo from './history-logo.svg';
+import OthersLogo from './others-logo.svg';
+import HouseLogo from './house-logo.svg';
+import HiburanLogo from './hiburan-logo.svg';
+import MedicalLogo from './medical-logo.svg';
+import AllLogo from './all-logo.svg';
+import FoodLogo from './food-logo.svg';
+import CarLogo from './car-logo.svg';
+import TotalExpenses from './totalexpenses.svg';
+import Bill from './bill.svg';
 
 export {
+  TotalExpenses,
+  Bill,
   AppLogo,
   GoogleLogo,
   TwitterLogo,
@@ -45,5 +56,12 @@ export {
   AnalysisLogo,
   HomeLogo,
   SettingLogo,
-  HistoryLogo
+  HistoryLogo,
+  OthersLogo,
+  AllLogo,
+  CarLogo,
+  MedicalLogo,
+  HiburanLogo,
+  FoodLogo,
+  HouseLogo,
 };
