@@ -1,0 +1,40 @@
+/* style.css */
+
+@media (max-width: 768px) {
+  .summary-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .summary-box {
+    flex-direction: column !important;
+    height: auto !important;
+  }
+
+  .summary-box .half-box {
+    width: 100% !important;
+    margin-bottom: 1rem;
+  }
+
+  .stat-box {
+    flex-direction: column !important;
+    height: auto !important;
+  }
+
+  .stat-box > div {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .category-button {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .category-button img {
+    margin-right: 0.5rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+}

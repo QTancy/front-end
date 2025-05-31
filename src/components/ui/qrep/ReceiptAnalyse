@@ -13,6 +13,7 @@ import {
   TotalExpenses,
 } from '@/icons';
 import Image from 'next/image';
+import style from './style.css';
 
 export default function ReceiptAnalyse() {
   const [paymentType, setPaymentType] = useState('All Payment');
@@ -57,6 +58,7 @@ export default function ReceiptAnalyse() {
       const newSelected = selectedKategori.includes(nama)
         ? selectedKategori.filter((item) => item !== nama)
         : [...selectedKategori.filter((item) => item !== 'Semua'), nama];
+
       setSelectedKategori(newSelected.length ? newSelected : ['Semua']);
     }
   };
@@ -64,6 +66,14 @@ export default function ReceiptAnalyse() {
   const filteredData = selectedKategori.includes('Semua')
     ? dataTransaksi
     : dataTransaksi.filter((t) => selectedKategori.includes(t.kategori));
+
+  const kategoriTotals = filteredData.reduce((acc, curr) => {
+    if (!acc[curr.kategori]) {
+      acc[curr.kategori] = 0;
+    }
+    acc[curr.kategori] += curr.jumlah;
+    return acc;
+  }, {});
 
   const totalExpenses = filteredData.reduce((sum, t) => sum + t.jumlah, 0);
   const totalReceipts = filteredData.length;
@@ -80,16 +90,77 @@ export default function ReceiptAnalyse() {
   };
 
   const pieData = {
-    labels: ['Makanan & Minuman', 'Transportasi', 'Hiburan'],
+    labels: Object.keys(kategoriTotals),
     datasets: [
       {
-        data: [60, 25, 15],
-        backgroundColor: ['#4F80E2', '#15CDCA', '#81F0D1'],
+        data: Object.values(kategoriTotals),
+        backgroundColor: [
+          '#4F80E2',
+          '#15CDCA',
+          '#81F0D1',
+          '#FFB347',
+          '#FF6961',
+          '#6A5ACD',
+          '#FAD02E',
+        ],
       },
     ],
   };
 
+  const pieOptions = {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+            const value = context.raw;
+            const percentage = ((value / total) * 100).toFixed(1);
+            return `${context.label}: ${percentage}%`;
+          },
+        },
+        backgroundColor: 'rgba(255, 255, 255, 0.55)', // 35% opacity white
+        titleColor: '#0F172A',
+        bodyColor: '#0F172A',
+        borderColor: 'gray',
+        borderWidth: 1,
+        titleFont: {
+          weight: 'bold',
+          size: 14,
+        },
+        bodyFont: {
+          weight: 'normal',
+          size: 14,
+        },
+        padding: 12,
+        displayColors: false,
+      },
+    },
+  };
+
+  const barOptions = {
+    plugins: {
+      tooltip: {
+        backgroundColor: 'rgba(255, 255, 255, 0.55)', // 40% opacity white
+        titleColor: '#0F172A',
+        bodyColor: '#0F172A',
+        borderColor: 'gray',
+        borderWidth: 1,
+        titleFont: {
+          weight: 'bold',
+          size: 14,
+        },
+        bodyFont: {
+          weight: 'normal',
+          size: 14,
+        },
+        padding: 12,
+        displayColors: false,
+      },
+    },
+  };
+
   return h('main', { className: 'w-full max-w-6xl p-6 space-y-6 mx-auto' }, [
+    // BOX PERTAMA
     h(
       'div',
       {
@@ -99,20 +170,24 @@ export default function ReceiptAnalyse() {
       [
         h(
           'h1',
-          { className: 'text-2xl font-extrabold text-[var(--primary)]' },
+          {
+            className: 'text-2xl font-extrabold text-[var(--primary)]',
+          },
           'Hello, Jeno! This is Qrep'
         ),
+
         h(
           'p',
-          { className: 'text-[#0F172A] mt-1' },
+          {
+            className: 'text-[#0F172A] mt-1',
+          },
           'Lihat pengeluaran berdasarkan kategori, tipe payment, atau jangka waktu'
         ),
 
         h('div', { className: 'flex justify-between items-center mt-6' }, [
-          // Mengubah justify-end menjadi justify-between dan menambahkan items-center
-          h('div', { className: 'font-bold text-xl' }, 'Ringkasan Pengeluaran'), // Tambahkan teks ini di sini
+          h('div', { className: 'font-bold text-xl' }, 'Ringkasan Pengeluaran'),
+
           h('div', { className: 'flex gap-2' }, [
-            // Bungkus select di dalam div terpisah agar tetap sejajar di kanan
             h(
               'select',
               {
@@ -142,11 +217,15 @@ export default function ReceiptAnalyse() {
 
         h(
           'div',
-          { className: 'mt-5 bg-[#BDF6F1] p-4 rounded-[12px] h-[345px]' },
+          {
+            className: 'mt-5 bg-[#BDF6F1] p-4 rounded-[12px] h-[345px]',
+          },
           [
             h(
               'div',
-              { className: 'grid grid-cols-1 md:grid-cols-3 gap-4 mb-4' },
+              {
+                className: 'grid grid-cols-1 md:grid-cols-3 gap-4 mb-4',
+              },
               [
                 h(
                   'h2',
@@ -164,13 +243,14 @@ export default function ReceiptAnalyse() {
                 ),
               ]
             ),
+
             h(
               'div',
               {
                 className: 'grid grid-cols-1 md:grid-cols-3 gap-4 items-start',
               },
               [
-                // Card kiri: Total Pengeluaran
+                // KIRI
                 h(
                   'div',
                   {
@@ -182,14 +262,14 @@ export default function ReceiptAnalyse() {
                       'div',
                       {
                         className:
-                          'bg-[#4F80E2] text-white rounded-[15px] p-4 flex flex-col items-center justify-center w-1/2',
+                          'bg-[#4F80E2] text-white rounded-[15px] p-4 flex flex-col items-center justify-center w-3/5',
                       },
                       [
                         h(Image, {
                           src: TotalExpenses.src,
                           alt: 'Total Expenses',
-                          width: 64,
-                          height: 64,
+                          width: 75,
+                          height: 75,
                         }),
                         h(
                           'p',
@@ -202,14 +282,14 @@ export default function ReceiptAnalyse() {
                       'div',
                       {
                         className:
-                          'bg-[#4F80E2] text-white rounded-[15px] p-4 flex flex-col items-center justify-center w-1/2',
+                          'bg-[#4F80E2] text-white rounded-[15px] p-4 flex flex-col items-center justify-center w-2/5',
                       },
                       [
                         h(Image, {
                           src: Bill.src,
                           alt: 'Bill',
-                          width: 48,
-                          height: 48,
+                          width: 55,
+                          height: 55,
                         }),
                         h(
                           'p',
@@ -221,7 +301,7 @@ export default function ReceiptAnalyse() {
                   ]
                 ),
 
-                // Card kanan: Statistik
+                // KANAN
                 h(
                   'div',
                   {
@@ -241,8 +321,9 @@ export default function ReceiptAnalyse() {
                             className: 'flex justify-center',
                             style: { width: '200px', height: '220px' },
                           },
-                          [h(Pie, { data: pieData })]
+                          [h(Pie, { data: pieData, options: pieOptions })]
                         ),
+
                         h('div', {}, [
                           h(
                             'p',
@@ -252,7 +333,7 @@ export default function ReceiptAnalyse() {
                             },
                             '20 - 26 April, 2025'
                           ),
-                          h(Bar, { data: barData }),
+                          h(Bar, { data: barData, options: barOptions }),
                         ]),
                       ]
                     ),
@@ -262,57 +343,73 @@ export default function ReceiptAnalyse() {
             ),
           ]
         ),
+      ]
+    ),
 
+    // KATEGORI
+    h(
+      'div',
+      { className: 'flex flex-wrap justify-center gap-3 mt-4' },
+      kategoriList.map((item, idx) =>
         h(
-          'div',
-          { className: 'flex flex-wrap gap-2 mt-4' },
-          kategoriList.map((item, idx) =>
-            h(
-              'button',
-              {
-                key: idx,
-                className: `flex items-center gap-2 px-4 py-2 rounded-[13px] border-[2px] border-[#B9B9B9] font-medium ${
-                  selectedKategori.includes(item.nama)
-                    ? item.nama === 'Semua'
-                      ? 'bg-[#15CDCA] border-[#0A918E] text-white [text-shadow:0px_0px_5px_rgba(0,0,0,0.3)] drop-shadow-md'
-                      : 'bg-[#15CDCA] border-[#0A918E] text-white [text-shadow:0px_0px_5px_rgba(0,0,0,0.3)] drop-shadow-md'
-                    : 'bg-white border-gray-300 hover:bg-teal-100 text-gray-700'
-                }`,
-                onClick: () => toggleKategori(item.nama),
-              },
-              [
-                h(Image, {
-                  src: item.icon.src,
-                  alt: item.nama,
-                  width: 20,
-                  height: 20,
-                  className: selectedKategori.includes(item.nama)
-                    ? 'filter brightness-0 invert'
-                    : '',
-                }),
-                item.nama,
-              ]
-            )
-          )
+          'button',
+          {
+            key: idx,
+            className: `flex items-center gap-2 px-4 py-2 rounded-[13px] border-[2px] border-[#B9B9B9] font-medium ${
+              selectedKategori.includes(item.nama)
+                ? 'bg-[#15CDCA] border-[#0A918E] text-white [text-shadow:0px_0px_5px_rgba(0,0,0,0.3)] drop-shadow-md'
+                : 'bg-white border-gray-300 hover:bg-teal-100 text-gray-700'
+            }`,
+            onClick: () => toggleKategori(item.nama),
+          },
+          [
+            h(Image, {
+              src: item.icon.src,
+              alt: item.nama,
+              width: 20,
+              height: 20,
+              className: selectedKategori.includes(item.nama)
+                ? 'filter brightness-0 invert'
+                : '',
+            }),
+            item.nama,
+          ]
+        )
+      )
+    ),
+
+    // HISTORI TRANSAKSI
+    h(
+      'div',
+      {
+        className:
+          'bg-white p-6 rounded shadow-md border-[4px] border-[#D9D9D9] mt-4',
+      },
+      [
+        h(
+          'h3',
+          {
+            className: 'font-bold text-xl mb-5',
+          },
+          'Histori Transaksi'
         ),
 
         h(
           'div',
-          { className: 'bg-white p-4 rounded shadow-md overflow-auto mt-4' },
+          { className: 'overflow-auto' }, // dibungkus agar table scroll tetap terjaga
           [
             h(
-              'h3',
-              { className: 'font-semibold mb-3 text-[#0F172A]' },
-              'Histori Transaksi'
-            ),
-            h(
               'table',
-              { className: 'w-full text-left border-collapse text-[#0F172A]' },
+              {
+                className: 'w-full text-left border-collapse text-[#0F172A]',
+              },
               [
                 h('thead', {}, [
                   h(
                     'tr',
-                    { className: 'bg-[#4FE0B6] border-b border-[#CBD5E1]' },
+                    {
+                      className: 'bg-[#4FE0B6] border-b border-[#CBD5E1]',
+                    },
                     [
                       h('th', { className: 'py-2' }, 'Tanggal'),
                       h('th', {}, 'Jumlah'),
