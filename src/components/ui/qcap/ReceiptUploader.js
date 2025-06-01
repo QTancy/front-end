@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import ReceiptOverlay from './ReceiptOverlay';
 
 export default function ReceiptUploader() {
@@ -7,6 +7,8 @@ export default function ReceiptUploader() {
   const [receiptDescription, setReceiptDescription] = useState('');
   const [payment, setPayment] = useState('Kredit');
   const [language, setLanguage] = useState('ID');
+
+  const fileInputRef = useRef(null);
 
   const handleTakePhoto = () => {
     setShowOverlay(true);
@@ -48,15 +50,43 @@ export default function ReceiptUploader() {
     e.preventDefault();
   };
 
+  // Handler untuk tombol Upload: buka file dialog
+  const handleUploadClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  // Handler saat user memilih file lewat dialog Upload
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      if (file.size > 10 * 1024 * 1024) {
+        alert('Ukuran gambar melebihi 10MB');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+        setShowOverlay(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="w-full min-h-screen bg-[#dcfaf8] flex flex-col items-center px-4 py-10">
       {/* Header */}
       <div className="text-center mb-10">
-        <h1 className="text-xl font-bold text-black">Hallo! This is <span className="font-extrabold">QCap</span></h1>
+        <h1 className="text-xl font-bold text-black">
+          Hallo! This is <span className="font-extrabold">QCap</span>
+        </h1>
         <h2 className="text-3xl font-extrabold mt-2 text-black">What is Your New Receipt?</h2>
         <p className="text-sm text-gray-700 mt-1">
-          Upload your media or choose take a photo. The first photo will be<br className="hidden sm:block" />
-          thumbnail in your history. Drag or snap up to 3 image to create multiple<br className="hidden sm:block" />
+          Upload your media or choose take a photo. The first photo will be
+          <br className="hidden sm:block" />
+          thumbnail in your history. Drag or snap up to 3 image to create multiple
+          <br className="hidden sm:block" />
           receipt in one history
         </p>
       </div>
@@ -69,8 +99,19 @@ export default function ReceiptUploader() {
           onDragOver={handleDragOver}
           className="flex-[2] bg-[#e6f3fe] border-2 border-dashed border-[#2b91ec] rounded-xl px-6 py-10 flex flex-col items-center justify-center text-center space-y-2 shadow-sm"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12v9m0 0l-3-3m3 3l3-3M12 3v9" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12 text-black"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12v9m0 0l-3-3m3 3l3-3M12 3v9"
+            />
           </svg>
           <p className="text-base font-semibold text-black">Drop file here</p>
           <p className="text-sm text-gray-600">OR</p>
@@ -82,12 +123,24 @@ export default function ReceiptUploader() {
               Take a photo
             </button>
             <button
+              onClick={handleUploadClick}
               className="w-30 bg-[var(--secondary)] text-white py-2 rounded-md text-sm font-semibold hover:bg-blue-700 transition"
             >
               Upload
             </button>
           </div>
-          <p className="text-xs text-gray-500">Photos must be less than <b>10 MB</b> in size</p>
+          <p className="text-xs text-gray-500">
+            Photos must be less than <b>10 MB</b> in size
+          </p>
+
+          {/* Hidden file input */}
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+          />
         </div>
 
         {/* Right Info Form */}
