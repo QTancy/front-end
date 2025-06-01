@@ -5,16 +5,28 @@ export default function ReceiptUploader() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [receiptDescription, setReceiptDescription] = useState('');
-  const [payment, setPayment] = useState('Kredit');
-  const [language, setLanguage] = useState('ID');
+  const [payment, setPayment] = useState('');
+  const [language, setLanguage] = useState('');
+  const [showError, setShowError] = useState(false);
 
   const fileInputRef = useRef(null);
 
+  const isSelectionValid = () => payment && language;
+
   const handleTakePhoto = () => {
+    if (!isSelectionValid()) {
+      setShowError(true);
+      return;
+    }
     setShowOverlay(true);
+    setShowError(false);
   };
 
   const handleRetake = () => {
+    if (!isSelectionValid()) {
+      setShowError(true);
+      return;
+    }
     setShowOverlay(true);
     setImagePreview(null);
     handleTakePhoto();
@@ -24,13 +36,18 @@ export default function ReceiptUploader() {
     alert('Lanjutkan dengan proses upload atau analisis');
   };
 
+  // *** Di sini kita reset imagePreview saat modal ditutup ***
   const handleCloseOverlay = () => {
+    setImagePreview(null);  // Reset foto supaya tidak tersimpan setelah modal ditutup
     setShowOverlay(false);
   };
 
-  // Handler tambahan untuk drag and drop
   const handleDrop = (e) => {
     e.preventDefault();
+    if (!isSelectionValid()) {
+      setShowError(true);
+      return;
+    }
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) {
       if (file.size > 10 * 1024 * 1024) {
@@ -41,24 +58,27 @@ export default function ReceiptUploader() {
       reader.onloadend = () => {
         setImagePreview(reader.result);
         setShowOverlay(true);
+        setShowError(false);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
+  const handleDragOver = (e) => e.preventDefault();
 
-  // Handler untuk tombol Upload: buka file dialog
   const handleUploadClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
+    if (!isSelectionValid()) {
+      setShowError(true);
+      return;
     }
+    fileInputRef.current?.click();
   };
 
-  // Handler saat user memilih file lewat dialog Upload
   const handleFileChange = (e) => {
+    if (!isSelectionValid()) {
+      setShowError(true);
+      return;
+    }
     const file = e.target.files[0];
     if (file && file.type.startsWith('image/')) {
       if (file.size > 10 * 1024 * 1024) {
@@ -69,6 +89,7 @@ export default function ReceiptUploader() {
       reader.onloadend = () => {
         setImagePreview(reader.result);
         setShowOverlay(true);
+        setShowError(false);
       };
       reader.readAsDataURL(file);
     }
@@ -76,7 +97,6 @@ export default function ReceiptUploader() {
 
   return (
     <div className="w-full min-h-screen bg-[#dcfaf8] flex flex-col items-center px-4 py-10">
-      {/* Header */}
       <div className="text-center mb-10">
         <h1 className="text-xl font-bold text-black">
           Hallo! This is <span className="font-extrabold">QCap</span>
@@ -91,27 +111,14 @@ export default function ReceiptUploader() {
         </p>
       </div>
 
-      {/* Upload + Basic Info */}
       <div className="w-full max-w-5xl flex flex-col md:flex-row gap-8 md:gap-16">
-        {/* Left Upload Box */}
         <div
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           className="flex-[2] bg-[#e6f3fe] border-2 border-dashed border-[#2b91ec] rounded-xl px-6 py-10 flex flex-col items-center justify-center text-center space-y-2 shadow-sm"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-12 w-12 text-black"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12v9m0 0l-3-3m3 3l3-3M12 3v9"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12v9m0 0l-3-3m3 3l3-3M12 3v9" />
           </svg>
           <p className="text-base font-semibold text-black">Drop file here</p>
           <p className="text-sm text-gray-600">OR</p>
@@ -129,11 +136,7 @@ export default function ReceiptUploader() {
               Upload
             </button>
           </div>
-          <p className="text-xs text-gray-500">
-            Photos must be less than <b>10 MB</b> in size
-          </p>
-
-          {/* Hidden file input */}
+          <p className="text-xs text-gray-500">Photos must be less than <b>10 MB</b> in size</p>
           <input
             type="file"
             accept="image/*"
@@ -143,7 +146,6 @@ export default function ReceiptUploader() {
           />
         </div>
 
-        {/* Right Info Form */}
         <div className="flex-1 space-y-3">
           <h3 className="text-2xl font-bold text-black mt-2 mb-2">Basic Info</h3>
 
@@ -161,18 +163,18 @@ export default function ReceiptUploader() {
           </div>
 
           <div className="flex gap-6">
-            {/* Payment */}
             <div>
               <label className="text-sm font-semibold block mb-1">Payment</label>
               <div className="flex w-60 rounded-md border border-gray-400 overflow-hidden">
                 {['Kredit', 'Debit'].map((method) => (
                   <button
                     key={method}
-                    onClick={() => setPayment(method)}
+                    onClick={() => {
+                      setPayment(method);
+                      setShowError(false);
+                    }}
                     className={`flex-1 py-2 font-semibold text-sm transition ${
-                      payment === method
-                        ? 'bg-[var(--secondary)] text-white'
-                        : 'bg-white text-black'
+                      payment === method ? 'bg-[var(--secondary)] text-white' : 'bg-white text-black'
                     }`}
                   >
                     {method}
@@ -181,18 +183,18 @@ export default function ReceiptUploader() {
               </div>
             </div>
 
-            {/* Language */}
             <div>
               <label className="text-sm font-semibold block mb-1">Language on Receipt</label>
               <div className="flex w-60 rounded-md border border-gray-400 overflow-hidden">
                 {['ID', 'EN'].map((lang) => (
                   <button
                     key={lang}
-                    onClick={() => setLanguage(lang)}
+                    onClick={() => {
+                      setLanguage(lang);
+                      setShowError(false);
+                    }}
                     className={`flex-1 py-2 font-semibold text-sm transition ${
-                      language === lang
-                        ? 'bg-[var(--secondary)] text-white'
-                        : 'bg-white text-black'
+                      language === lang ? 'bg-[var(--secondary)] text-white' : 'bg-white text-black'
                     }`}
                   >
                     {lang}
@@ -202,7 +204,6 @@ export default function ReceiptUploader() {
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="flex gap-4 pt-2">
             <button className="flex-1 bg-[#22d3aa] text-white py-2 rounded-md text-sm font-semibold hover:bg-[#1fb39a] transition">
               Cancel
@@ -211,10 +212,15 @@ export default function ReceiptUploader() {
               Send for QRep
             </button>
           </div>
+
+          {showError && (
+            <p className="text-red-600 text-sm font-medium mt-1">
+              Anda belum memilih bahasa dan payment
+            </p>
+          )}
         </div>
       </div>
 
-      {/* Overlay Modal */}
       {showOverlay && (
         <ReceiptOverlay
           imagePreview={imagePreview}

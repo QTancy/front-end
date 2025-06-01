@@ -30,9 +30,13 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
     }
   }, [imagePreview]);
 
-  const openCamera = () => {
+  const resetCaptureState = () => {
     setCapturedImage(null);
     setIsReceiptReadable(false);
+  };
+
+  const openCamera = () => {
+    resetCaptureState();
     setIsWebcamReady(false);
     setIsCameraOpen(true);
   };
@@ -40,6 +44,7 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
   const closeCamera = () => {
     setIsCameraOpen(false);
     setIsWebcamReady(false);
+    resetCaptureState();
   };
 
   const handleUserMedia = () => {
@@ -83,14 +88,12 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
         setIsReceiptReadable(true);
       } else {
         alert("Gambar tidak dikenali sebagai struk atau kurang terbaca. Silakan ambil ulang.");
-        setCapturedImage(null);
-        setIsReceiptReadable(false);
+        resetCaptureState();
       }
     } catch (error) {
       console.error('OCR Error:', error);
       alert("Terjadi kesalahan saat memproses gambar. Silakan coba lagi.");
-      setCapturedImage(null);
-      setIsReceiptReadable(false);
+      resetCaptureState();
     } finally {
       setCheckingReceipt(false);
     }
@@ -111,14 +114,21 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
   }, [webcamRef, isWebcamReady]);
 
   const handleInternalRetake = () => {
-    setCapturedImage(null);
-    setIsReceiptReadable(false);
+    resetCaptureState();
     if (!isCameraOpen) {
       openCamera();
     }
     if (typeof onRetake === 'function') {
       onRetake();
     }
+  };
+
+  const handleCloseOverlay = () => {
+    resetCaptureState();
+    if (isCameraOpen) {
+      closeCamera();
+    }
+    onClose();
   };
 
   const handleInternalContinue = () => {
@@ -135,10 +145,7 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
     <>
       <div
         className="fixed inset-0 z-40 bg-black bg-opacity-40 backdrop-blur-sm"
-        onClick={() => {
-          if (isCameraOpen) closeCamera();
-          onClose();
-        }}
+        onClick={handleCloseOverlay}
       />
       <div
         className={`fixed bottom-0 left-0 right-0 z-50 max-h-[90vh] bg-[var(--background)] rounded-t-3xl p-6 shadow-2xl overflow-auto transform transition-transform duration-1000 ${
@@ -147,6 +154,16 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
         style={{ maxWidth: '600px', margin: '0 auto' }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Tombol silang close */}
+        <button
+          onClick={handleCloseOverlay}
+          aria-label="Close"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+          style={{ fontSize: '1.5rem', lineHeight: 1, background: 'transparent', border: 'none', cursor: 'pointer' }}
+        >
+          &#x2715;
+        </button>
+
         <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4" />
 
         <div className="flex justify-center mb-4 bg-gray-200 dark:bg-gray-800 rounded-lg min-h-[250px] items-center relative">
@@ -215,7 +232,10 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
 
             {isCameraOpen && !capturedImage && (
               <button
-                onClick={capture}
+                onClick={() => {
+                  resetCaptureState();
+                  capture();
+                }}
                 disabled={!isWebcamReady}
                 className="text-sm cursor-pointer rounded bg-blue-500 px-5 py-2 text-white hover:bg-blue-600 active:bg-blue-700 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
