@@ -39,6 +39,9 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
 
       const isReceiptLike = /total|amount|change|invoice|cash|harga|kembali/i.test(text);
       const isReadable = confidence > 60;
+      console.log("isReceiptLike",isReceiptLike);
+      console.log("isReadable",isReadable);
+      console.log("Confidence",confidence);
 
       if (isReceiptLike && isReadable) {
         setIsReceiptReadable(true);
@@ -167,7 +170,7 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
         className={`fixed bottom-0 left-0 right-0 z-50 max-h-[90vh] bg-[var(--background)] rounded-t-3xl p-6 shadow-2xl overflow-auto transform transition-transform duration-1000 ${
           isVisible ? 'translate-y-0' : 'translate-y-full'
         }`}
-        style={{ maxWidth: '600px', margin: '0 auto' }}
+        style={{ maxWidth: '1000px' , margin: '0 auto' }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Tombol silang close */}
@@ -184,23 +187,23 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
         <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4" />
 
         {/* Area preview gambar / kamera */}
-        <div className="flex justify-center mb-4 bg-gray-200 dark:bg-gray-800 rounded-lg min-h-[250px] items-center relative">
+        <div className="flex justify-center mb-4 bg-gray-200 dark:bg-gray-800 rounded-lg h-full items-center relative">
           {capturedImage || imagePreview ? (
             <Image
               src={capturedImage || imagePreview}
               width={720}
               height={1280}
               alt="Preview foto yang diambil"
-              className="w-full max-h-[60vh] object-contain rounded-lg"
+              className="w-full h-full object-contain rounded-lg"
             />
           ) : isCameraOpen ? (
-            <div className="relative w-full max-h-[60vh] object-contain">
+            <div className="relative w-full h-full object-contain">
               <Webcam
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
                 videoConstraints={videoConstraints}
-                className="w-full max-h-[60vh] object-contain rounded-lg"
+                className="w-full h-full object-contain rounded-lg"
                 onUserMedia={handleUserMedia}
                 onUserMediaError={handleUserMediaError}
               />
