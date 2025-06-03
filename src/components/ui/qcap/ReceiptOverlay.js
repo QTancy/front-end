@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Webcam from 'react-webcam';
 import Tesseract from 'tesseract.js';
+import ReceiptDisplay from './ReceiptDisplay'; 
 
 export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onClose }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -10,6 +11,8 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
   const [isWebcamReady, setIsWebcamReady] = useState(false);
   const [checkingReceipt, setCheckingReceipt] = useState(false);
   const [isReceiptReadable, setIsReceiptReadable] = useState(false);
+  const [showReceiptDisplay, setShowReceiptDisplay] = useState(false);
+  const [imageToDisplay, setImageToDisplay] = useState(null);
 
   const webcamRef = useRef(null);
 
@@ -19,21 +22,48 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
     facingMode: 'environment',
   };
 
+  const resetCaptureState = useCallback(() => {
+    setCapturedImage(null);
+    setIsReceiptReadable(false);
+  }, []);
+
+  const checkIfReceipt = useCallback(async (image) => {
+    setCheckingReceipt(true);
+    setIsReceiptReadable(false);
+    try {
+      const { data: { text, confidence } } = await Tesseract.recognize(
+        image,
+        'eng',
+        { logger: m => console.log(m) }
+      );
+
+      const isReceiptLike = /total|amount|change|invoice|cash|harga|kembali/i.test(text);
+      const isReadable = confidence > 60;
+
+      if (isReceiptLike && isReadable) {
+        setIsReceiptReadable(true);
+      } else {
+        alert("Gambar tidak dikenali sebagai struk atau kurang terbaca. Silakan ambil ulang.");
+        resetCaptureState();
+      }
+    } catch (error) {
+      console.error('OCR Error:', error);
+      alert("Terjadi kesalahan saat memproses gambar. Silakan coba lagi.");
+      resetCaptureState();
+    } finally {
+      setCheckingReceipt(false);
+    }
+  }, [resetCaptureState]);
+
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  // Cek OCR otomatis kalau ada imagePreview (drag & drop)
   useEffect(() => {
     if (imagePreview && !capturedImage) {
       checkIfReceipt(imagePreview);
     }
-  }, [imagePreview]);
-
-  const resetCaptureState = () => {
-    setCapturedImage(null);
-    setIsReceiptReadable(false);
-  };
+  }, [imagePreview, capturedImage, checkIfReceipt]);
 
   const openCamera = () => {
     resetCaptureState();
@@ -71,34 +101,6 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
     document.body.removeChild(link);
   };
 
-  const checkIfReceipt = async (image) => {
-    setCheckingReceipt(true);
-    setIsReceiptReadable(false);
-    try {
-      const { data: { text, confidence } } = await Tesseract.recognize(
-        image,
-        'eng',
-        { logger: m => console.log(m) }
-      );
-
-      const isReceiptLike = /total|amount|change|invoice|cash|harga|kembali/i.test(text);
-      const isReadable = confidence > 60;
-
-      if (isReceiptLike && isReadable) {
-        setIsReceiptReadable(true);
-      } else {
-        alert("Gambar tidak dikenali sebagai struk atau kurang terbaca. Silakan ambil ulang.");
-        resetCaptureState();
-      }
-    } catch (error) {
-      console.error('OCR Error:', error);
-      alert("Terjadi kesalahan saat memproses gambar. Silakan coba lagi.");
-      resetCaptureState();
-    } finally {
-      setCheckingReceipt(false);
-    }
-  };
-
   const capture = useCallback(async () => {
     if (webcamRef.current && isWebcamReady) {
       const imageSrc = webcamRef.current.getScreenshot();
@@ -111,7 +113,7 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
     } else {
       alert('Kamera belum siap atau referensi tidak tersedia.');
     }
-  }, [webcamRef, isWebcamReady]);
+  }, [isWebcamReady, checkIfReceipt]);
 
   const handleInternalRetake = () => {
     resetCaptureState();
@@ -128,19 +130,33 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
     if (isCameraOpen) {
       closeCamera();
     }
-    onClose();
+    if (typeof onClose === 'function') {
+      onClose();
+    }
   };
 
   const handleInternalContinue = () => {
-    if (capturedImage) {
-      onContinue(capturedImage);
-    } else if (imagePreview) {
-      onContinue(imagePreview);
+    const image = capturedImage || imagePreview;
+    if (image) {
+      setImageToDisplay(image);
+      setShowReceiptDisplay(true);
+      if (typeof onContinue === 'function') {
+        onContinue(image);
+      }
     } else {
       alert('Tidak ada foto untuk dilanjutkan.');
     }
   };
 
+  if (showReceiptDisplay) {
+    return (
+      <ReceiptDisplay
+        image={imageToDisplay}
+        onBack={() => setShowReceiptDisplay(false)}
+      />
+    );
+  }
+  
   return (
     <>
       <div
@@ -164,8 +180,10 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
           &#x2715;
         </button>
 
+        {/* Garis kecil atas */}
         <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4" />
 
+        {/* Area preview gambar / kamera */}
         <div className="flex justify-center mb-4 bg-gray-200 dark:bg-gray-800 rounded-lg min-h-[250px] items-center relative">
           {capturedImage || imagePreview ? (
             <Image
@@ -186,6 +204,7 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
                 onUserMedia={handleUserMedia}
                 onUserMediaError={handleUserMediaError}
               />
+              {/* Garis bantu kamera */}
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute border-2 border-dashed border-white top-[10%] left-[10%] w-[80%] h-[80%] rounded-md" />
               </div>
@@ -201,18 +220,21 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
           )}
         </div>
 
+        {/* Status kamera */}
         {isCameraOpen && !capturedImage && (
           <p className="text-center text-xs text-gray-500 dark:text-gray-400 mb-2">
             {isWebcamReady ? "Kamera siap." : "Menunggu izin kamera..."}
           </p>
         )}
 
+        {/* Status pengecekan OCR */}
         {checkingReceipt && (
           <p className="text-center text-xs text-yellow-500 dark:text-yellow-400 mb-2 animate-pulse">
             Mengecek apakah ini struk dan bisa dibaca...
           </p>
         )}
 
+        {/* Status struk terbaca */}
         {!checkingReceipt && isReceiptReadable && (
           <p className="text-center text-xs text-green-600 dark:text-green-400 mb-2 animate-pulse">
             Struk terbaca dengan baik ✅
@@ -221,6 +243,7 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
 
         <div className="mt-6 space-y-4">
           <div className="flex flex-wrap justify-center gap-4">
+            {/* Tombol open/close kamera */}
             {!capturedImage && !imagePreview && (
               <button
                 onClick={isCameraOpen ? closeCamera : openCamera}
@@ -230,6 +253,7 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
               </button>
             )}
 
+            {/* Tombol ambil foto */}
             {isCameraOpen && !capturedImage && (
               <button
                 onClick={() => {
@@ -243,6 +267,7 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
               </button>
             )}
 
+            {/* Tombol unduh */}
             {capturedImage && (
               <button
                 onClick={() => downloadImage(capturedImage, `receipt-${Date.now()}.jpeg`)}
@@ -254,19 +279,24 @@ export default function ReceiptOverlay({ imagePreview, onRetake, onContinue, onC
           </div>
 
           <div className="flex justify-between items-center">
+            {/* Tombol ambil ulang */}
             <button
-              onClick={capturedImage ? handleInternalRetake : closeCamera}
-              className="text-sm cursor-pointer rounded bg-[#22d3aa] px-5 py-2 text-white hover:bg-[#1fb39a] active:bg-[#1fb39a] transition-colors duration-300"
+              onClick={handleInternalRetake}
+              className="text-sm rounded bg-gray-300 dark:bg-gray-700 px-4 py-2 hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors duration-300"
             >
-              {capturedImage ? 'Retake' : (isCameraOpen ? 'Cancel' : 'Retake')}
+              Ambil Ulang
             </button>
-
+            {/* Tombol lanjutkan */}
             <button
               onClick={handleInternalContinue}
-              className="text-sm cursor-pointer rounded bg-[var(--secondary)] px-5 py-2 text-white hover:bg-blue-700 active:bg-blue-900 transition-colors duration-300"
-              disabled={!capturedImage && !imagePreview}
+              disabled={!isReceiptReadable || checkingReceipt}
+              className={`text-sm rounded px-4 py-2 text-white transition-colors duration-300 ${
+                !isReceiptReadable || checkingReceipt
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-green-600 hover:bg-green-700 active:bg-green-800'
+              }`}
             >
-              Continue
+              Lanjutkan
             </button>
           </div>
         </div>

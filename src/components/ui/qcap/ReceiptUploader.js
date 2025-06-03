@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react';
 import ReceiptOverlay from './ReceiptOverlay';
+import ReceiptDisplay from './ReceiptDisplay';
 
 export default function ReceiptUploader() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
+  const [confirmedImage, setConfirmedImage] = useState(null);  // <-- state baru
   const [receiptDescription, setReceiptDescription] = useState('');
   const [payment, setPayment] = useState('');
   const [language, setLanguage] = useState('');
@@ -32,13 +34,14 @@ export default function ReceiptUploader() {
     handleTakePhoto();
   };
 
-  const handleContinue = () => {
-    alert('Lanjutkan dengan proses upload atau analisis');
+  // Di sini kita terima image dari ReceiptOverlay dan simpan ke confirmedImage
+  const handleContinue = (img) => {
+    setConfirmedImage(img);
+    setShowOverlay(false);
   };
 
-  // *** Di sini kita reset imagePreview saat modal ditutup ***
   const handleCloseOverlay = () => {
-    setImagePreview(null);  // Reset foto supaya tidak tersimpan setelah modal ditutup
+    setImagePreview(null);
     setShowOverlay(false);
   };
 
@@ -95,6 +98,17 @@ export default function ReceiptUploader() {
     }
   };
 
+  // Kalau sudah ada gambar konfirmasi, tampilkan ReceiptDisplay
+  if (confirmedImage) {
+    return (
+      <ReceiptDisplay
+        image={confirmedImage}
+        onBack={() => setConfirmedImage(null)} // Kembali ke uploader
+      />
+    );
+  }
+
+  // Kalau belum ada gambar konfirmasi, tampilkan uploader
   return (
     <div className="w-full min-h-screen bg-[#dcfaf8] flex flex-col items-center px-4 py-10">
       <div className="text-center mb-10">
@@ -205,10 +219,28 @@ export default function ReceiptUploader() {
           </div>
 
           <div className="flex gap-4 pt-2">
-            <button className="flex-1 bg-[#22d3aa] text-white py-2 rounded-md text-sm font-semibold hover:bg-[#1fb39a] transition">
+            <button
+              onClick={() => {
+                setReceiptDescription('');
+                setPayment('');
+                setLanguage('');
+                setShowError(false);
+                setImagePreview(null);
+              }}
+              className="flex-1 bg-[#22d3aa] text-white py-2 rounded-md text-sm font-semibold hover:bg-[#1fb39a] transition"
+            >
               Cancel
             </button>
-            <button className="flex-[2] bg-[var(--secondary)] text-white py-2 rounded-md text-sm font-semibold hover:bg-[#3a5cd6] transition">
+            <button
+              onClick={() => {
+                if (!isSelectionValid()) {
+                  setShowError(true);
+                  return;
+                }
+                alert('Send for QRep feature not implemented');
+              }}
+              className="flex-[2] bg-[var(--secondary)] text-white py-2 rounded-md text-sm font-semibold hover:bg-[#3a5cd6] transition"
+            >
               Send for QRep
             </button>
           </div>
@@ -225,7 +257,7 @@ export default function ReceiptUploader() {
         <ReceiptOverlay
           imagePreview={imagePreview}
           onRetake={handleRetake}
-          onContinue={handleContinue}
+          onContinue={() => handleContinue(imagePreview)}  // Kirim imagePreview ke handleContinue
           onClose={handleCloseOverlay}
         />
       )}
