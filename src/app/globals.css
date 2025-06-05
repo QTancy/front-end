@@ -30,7 +30,7 @@
   :root {
     --foreground: #ededed;
     --background: #0a0a0a;
-    --background-secondary: #ffff;
+    --background-secondary: #fffff;
     --primary: #22c55e;
     --secondary: #3e54d3;
     --primary-text: #ffff;
@@ -40,7 +40,8 @@
 }
 
 body {
-  background: var(--background);
+  overflow-x: hidden;
+  background: white;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -124,3 +125,8 @@ body {
 .faq-wrapper:hover .hide {
   display: block;
 }
+
+h1.font-tilt-warp {
+  font-family: 'Tilt Warp', sans-serif;
+}
+

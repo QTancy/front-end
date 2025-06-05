@@ -10,6 +10,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@fontsource/poppins": "^5.2.6",
+    "@fontsource/tilt-warp": "^5.2.8",
     "chart.js": "^4.4.9",
     "next": "15.3.2",
     "react": "^19.0.0",

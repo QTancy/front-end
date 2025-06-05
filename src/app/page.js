@@ -1,4 +1,4 @@
-import HeadNavigation from '@/components/header/head-navigation';
+import HeadNavigation from '@/components/header/head-home';
 import AnimatedSection from '@/components/ui/wrapper/animation-wrapper';
 import RootWraper from '@/components/ui/wrapper/root-wrapper';
 import BodySection from '@/layout/bodysection';
@@ -9,30 +9,34 @@ import HeroSection from '@/layout/herosection';
 export default function Home() {
   return (
     <div className="w-full">
+      {/* HEADNAVIGATION SECTION - Sticky Header */}
+      <div className="sticky top-0 z-50 bg-white shadow-md">
+        <HeadNavigation />
+      </div>
+
       {/* HERO SECTION */}
-      <AnimatedSection animationType='fadeUp'>
+      <AnimatedSection animationType="fadeUp">
         <RootWraper>
-          <HeadNavigation />
           <HeroSection />
         </RootWraper>
       </AnimatedSection>
 
       {/* BODY SECTION */}
-      <AnimatedSection animationType='fadeLeft'>
+      <AnimatedSection animationType="fadeLeft">
         <RootWraper color={'secondary'}>
           <BodySection />
         </RootWraper>
       </AnimatedSection>
 
       {/* FAQ SECTION */}
-      <AnimatedSection animationType='fadeRight'>
+      <AnimatedSection animationType="fadeRight">
         <RootWraper>
           <FAQSection />
         </RootWraper>
       </AnimatedSection>
 
       {/* FOOTER SECTION */}
-      <AnimatedSection animationType='fadeUp'>
+      <AnimatedSection animationType="fadeUp">
         <RootWraper color={'secondary'}>
           <FooterSection />
         </RootWraper>

@@ -89,7 +89,7 @@ export default function ReceiptDisplay({ image, onBack }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-mono">
 
           {/* Kotak kiri - gambar */}
-          <div className="bg-white shadow border w-full max-w-[380px] h-[480px] flex justify-center items-center overflow-hidden">
+          <div className="bg-white shadow-lg ring-1 ring-gray-200 w-full max-w-[380px] h-[480px] flex justify-center items-center overflow-hidden rounded">
             {image ? (
               <Image
                 src={image}
@@ -104,7 +104,7 @@ export default function ReceiptDisplay({ image, onBack }) {
           </div>
 
           {/* Kotak kanan - info */}
-          <div className="bg-white shadow border p-4 flex flex-col justify-between max-w-[380px]">
+          <div className="bg-white shadow-lg ring-1 ring-gray-200 p-4 flex flex-col justify-between max-w-[380px] rounded">
             <div>
               <h2 className="text-base font-bold mb-1">{receiptData.storeName}</h2>
               <p className="text-xs text-gray-700 mb-1">

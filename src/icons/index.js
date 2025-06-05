@@ -1,4 +1,6 @@
 import AppLogo from './icon-logo.svg';
+import AppLogo1 from './AppLogo1.svg';
+import Rectangle2 from './Rectangle2.svg';
 import GoogleLogo from './google-logo.svg';
 import TwitterLogo from './twitter-logo.svg';
 import FacebookLogo from './facebook-logo.svg';
@@ -32,6 +34,8 @@ import TotalExpenses from './totalexpenses.svg';
 import Bill from './bill.svg';
 
 export {
+  AppLogo1,
+  Rectangle2,
   TotalExpenses,
   Bill,
   AppLogo,
