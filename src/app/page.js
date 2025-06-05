@@ -5,6 +5,7 @@ import BodySection from '@/layout/bodysection';
 import FAQSection from '@/layout/faqsection';
 import FooterSection from '@/layout/footersection';
 import HeroSection from '@/layout/herosection';
+import FooterTeam from '@/layout/teamsection'; // ✅ import komponen baru
 
 export default function Home() {
   return (
@@ -19,6 +20,11 @@ export default function Home() {
         <RootWraper>
           <HeroSection />
         </RootWraper>
+      </AnimatedSection>
+
+      {/* ✅ FOOTER TEAM SECTION - di bawah Hero */}
+      <AnimatedSection animationType="fadeUp">
+        <FooterTeam />
       </AnimatedSection>
 
       {/* BODY SECTION */}
