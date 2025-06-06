@@ -8,6 +8,7 @@ module.exports = {
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
         'tilt-warp': ['"Tilt Warp"', 'sans-serif'],
+        'tilt-neon': ['"Tilt Neon"', 'sans-serif'],
       },
       colors: {
         primary: '#D10000',

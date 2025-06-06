@@ -1,12 +1,13 @@
 import HeadNavigation from '@/components/header/head-home';
 import AnimatedSection from '@/components/ui/wrapper/animation-wrapper';
 import RootWraper from '@/components/ui/wrapper/root-wrapper';
-import BodySection from '@/layout/bodysection';
-import FAQSection from '@/layout/faqsection';
-import FooterSection from '@/layout/footersection';
 import WhyQTancySection from '@/layout/functionsection';
 import HeroSection from '@/layout/herosection';
 import FooterTeam from '@/layout/teamsection';
+import QcapFunctionSection from '@/layout/qcapsection';
+import QrepFunctionSection from '@/layout/qrepsection';
+import FaqNewSection from '@/layout/faqnewsection';
+import Footer from '@/layout/footernewsection';
 
 export default function Home() {
   return (
@@ -33,25 +34,24 @@ export default function Home() {
         <WhyQTancySection/>
       </AnimatedSection>
 
-      {/* BODY SECTION */}
-      <AnimatedSection animationType="fadeLeft">
-        <RootWraper color={'secondary'}>
-          <BodySection />
-        </RootWraper>
+      {/* Qcap Section Function */}
+      <AnimatedSection animationType='fadeLeft'>
+        <QcapFunctionSection/>
       </AnimatedSection>
 
-      {/* FAQ SECTION */}
-      <AnimatedSection animationType="fadeRight">
-        <RootWraper>
-          <FAQSection />
-        </RootWraper>
+      {/* Qrap Section Function */}
+      <AnimatedSection animationType='fadeRight'>
+        <QrepFunctionSection/>
       </AnimatedSection>
 
-      {/* FOOTER SECTION */}
-      <AnimatedSection animationType="fadeUp">
-        <RootWraper color={'secondary'}>
-          <FooterSection />
-        </RootWraper>
+      {/* FAQ NEW SECTION */}
+      <AnimatedSection animationType='fadeUp'>
+        <FaqNewSection/>
+      </AnimatedSection>
+
+      {/* FAQ NEW SECTION */}
+      <AnimatedSection animationType='fadeUp'>
+        <Footer/>
       </AnimatedSection>
     </div>
   );

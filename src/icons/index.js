@@ -1,9 +1,12 @@
 import AppLogo from './icon-logo.svg';
 import AppLogo1 from './AppLogo1.svg';
+import AppLogo2 from './AppLogo2.svg';
 import Rectangle2 from './Rectangle2.svg';
 import solar from './solar.svg';
 import vector from './vector.svg';
 import carbon from './carbon.svg';
+import qcapgroup from './qcapgroup.svg';
+import Rect from './Rect.svg';
 import GoogleLogo from './google-logo.svg';
 import TwitterLogo from './twitter-logo.svg';
 import FacebookLogo from './facebook-logo.svg';
@@ -38,6 +41,9 @@ import Bill from './bill.svg';
 
 export {
   AppLogo1,
+  AppLogo2,
+  qcapgroup,
+  Rect,
   Rectangle2,
   solar,
   vector,
