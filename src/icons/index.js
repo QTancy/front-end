@@ -1,6 +1,9 @@
 import AppLogo from './icon-logo.svg';
 import AppLogo1 from './AppLogo1.svg';
 import Rectangle2 from './Rectangle2.svg';
+import solar from './solar.svg';
+import vector from './vector.svg';
+import carbon from './carbon.svg';
 import GoogleLogo from './google-logo.svg';
 import TwitterLogo from './twitter-logo.svg';
 import FacebookLogo from './facebook-logo.svg';
@@ -36,6 +39,9 @@ import Bill from './bill.svg';
 export {
   AppLogo1,
   Rectangle2,
+  solar,
+  vector,
+  carbon,
   TotalExpenses,
   Bill,
   AppLogo,

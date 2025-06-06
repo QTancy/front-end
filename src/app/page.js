@@ -4,8 +4,9 @@ import RootWraper from '@/components/ui/wrapper/root-wrapper';
 import BodySection from '@/layout/bodysection';
 import FAQSection from '@/layout/faqsection';
 import FooterSection from '@/layout/footersection';
+import WhyQTancySection from '@/layout/functionsection';
 import HeroSection from '@/layout/herosection';
-import FooterTeam from '@/layout/teamsection'; // ✅ import komponen baru
+import FooterTeam from '@/layout/teamsection';
 
 export default function Home() {
   return (
@@ -22,9 +23,14 @@ export default function Home() {
         </RootWraper>
       </AnimatedSection>
 
-      {/* ✅ FOOTER TEAM SECTION - di bawah Hero */}
+      {/* FOOTER TEAM SECTION */}
       <AnimatedSection animationType="fadeUp">
         <FooterTeam />
+      </AnimatedSection>
+
+      {/* FUNCTION SECTION */}
+      <AnimatedSection animationType='fadeRight'>
+        <WhyQTancySection/>
       </AnimatedSection>
 
       {/* BODY SECTION */}
