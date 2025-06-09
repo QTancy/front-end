@@ -23,7 +23,7 @@ export default function SignInForm() {
           <div className='w-full flex flex-col items-center text-center'>
             <div className="flex flex-col text-white gap-1 justify-center items-center">
               <h1 className="font-bold text-3xl">Sign In</h1>
-              <p className="text-sm">Enter your email to sign in for this app</p>
+              <p className="text-sm">Masukkan Email Anda Untuk Sign In</p>
             </div>
             <form className="flex flex-col w-full gap-4 mt-4">
               <input
@@ -44,7 +44,7 @@ export default function SignInForm() {
                 autoComplete="password"
                 required
               />
-              <Link href="/homepage" className='mt-4'>
+              <Link href="/qcap" className='mt-4'>
                 <Button color="secondary" text="Sign In" />
               </Link>
             </form>
