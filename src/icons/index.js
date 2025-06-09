@@ -10,7 +10,7 @@ import Rect from './Rect.svg';
 import GoogleLogo from './google-logo.svg';
 import TwitterLogo from './twitter-logo.svg';
 import FacebookLogo from './facebook-logo.svg';
-import SignInIllustration from './sign-in-illustration.svg';
+import SignInIllustration from './sign-in.svg';
 import SignUpIllustration from './sign-up-illustration.svg';
 import ReceiptLogo from './receipt-logo.svg';
 import QRepLogo from './qrep-logo.svg';
@@ -38,6 +38,8 @@ import FoodLogo from './food-logo.svg';
 import CarLogo from './car-logo.svg';
 import TotalExpenses from './totalexpenses.svg';
 import Bill from './bill.svg';
+import QTancyHeaderLogo from './qtancy-logo-header.svg';
+import QTancyFooterLogo from './qtancy-logo-footer.svg';
 
 export {
   AppLogo1,
@@ -80,4 +82,6 @@ export {
   HiburanLogo,
   FoodLogo,
   HouseLogo,
+  QTancyHeaderLogo,
+  QTancyFooterLogo
 };

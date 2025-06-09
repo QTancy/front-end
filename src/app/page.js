@@ -8,10 +8,14 @@ import QcapFunctionSection from '@/layout/qcapsection';
 import QrepFunctionSection from '@/layout/qrepsection';
 import FaqNewSection from '@/layout/faqnewsection';
 import Footer from '@/layout/footernewsection';
+import Head from 'next/head';
 
 export default function Home() {
   return (
     <div className="w-full">
+      <Head>
+        <link rel='icon' href='./favicon.ico' />
+      </Head>
       {/* HEADNAVIGATION SECTION - Sticky Header */}
       <div className="sticky top-0 z-50 bg-white shadow-md">
         <HeadNavigation />
@@ -19,9 +23,7 @@ export default function Home() {
 
       {/* HERO SECTION */}
       <AnimatedSection animationType="fadeUp">
-        <RootWraper>
-          <HeroSection />
-        </RootWraper>
+        <HeroSection />
       </AnimatedSection>
 
       {/* FOOTER TEAM SECTION */}

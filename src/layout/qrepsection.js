@@ -22,9 +22,9 @@ export default function QrepFunctionSection() {
 
         {/* Right Text */}
         <div className="mr-20 -mt-30"> 
-          <h1 className="text-3xl md:text-5xl font-normal mb-2" style={{ fontFamily: '"Tilt Warp", sans-serif'}}>
+          <h1 className="text-3xl md:text-5xl text-black font-normal mb-2" style={{ fontFamily: '"Tilt Warp", sans-serif'}}>
             <span className="text-[var(--secondary)]">QRep</span> Know More, <br />
-            Spend Smarter
+            Spend <span className="text-[var(--secondary)]">Smarter</span>
           </h1>
           <p className="text-base md:text-lg text-black" style={{ fontFamily: '"Tilt Neon", sans-serif'}}>
             Visualize your spending, track trends, and gain insights—all in one clear, simple dashboard. Perfect for UMKM to stay in control.

@@ -11,7 +11,7 @@ export default function WhyQTancySection() {
     <div className="bg-white py-20 flex flex-col items-center justify-center gap-12 px-4 text-center">
       {/* Title */}
       <div className="max-w-2xl">
-        <h2 className="text-4xl md:text-6xl font-normal mb-2" style={{ fontFamily: '"Tilt Warp", sans-serif'}}>
+        <h2 className="text-4xl md:text-6xl text-black font-normal mb-2" style={{ fontFamily: '"Tilt Warp", sans-serif'}}>
           Why <span className="text-[var(--secondary)]">QTancy?</span>
         </h2>
         <p className="text-base md:text-lg text-black" style={{ fontFamily: '"Tilt Neon", sans-serif'}}>

@@ -12,9 +12,9 @@ export default function QcapFunctionSection() {
         
         {/* Left Text */}
         <div className="ml-40 mt-[-40px]">
-          <h1 className="text-3xl md:text-5xl font-normal mb-2" style={{ fontFamily: '"Tilt Warp", sans-serif'}}>
+          <h1 className="text-3xl md:text-5xl text-black font-normal mb-2" style={{ fontFamily: '"Tilt Warp", sans-serif'}}>
             Scan <span className="text-[var(--secondary)]">QCap</span>,<br />
-            Work Smart!
+            <span className='text-[var(--secondary)]'>Work</span> Smart! 
           </h1>
           <p className="text-base md:text-lg text-black" style={{ fontFamily: '"Tilt Neon", sans-serif'}}>
             QCap’s smart AI turns receipts into accurate digital records in seconds, eliminating manual entry and saving your UMKM time to focus on growing your business.

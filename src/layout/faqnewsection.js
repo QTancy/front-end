@@ -43,7 +43,7 @@ export default function FaqNewSection() {
         {/* Left Content */}
         <div className="ml-30 max-w-md mt-16">
           <h2
-            className="text-3xl md:text-5xl font-normal mb-2"
+            className="text-3xl md:text-5xl font-normal mb-2 text-black"
             style={{ fontFamily: '"Tilt Warp", sans-serif' }}
           >
             Frequently Asked <br />

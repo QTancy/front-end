@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import "@fontsource/tilt-warp";
-import { AppLogo2 } from "@/icons";
+import { AppLogo2, QTancyFooterLogo } from "@/icons";
 
 const FooterSection = () => {
   return (
@@ -11,7 +11,7 @@ const FooterSection = () => {
         <div className="flex flex-col items-center space-y-6">
           {/* Logo */}
           <div>
-            <Image src={AppLogo2} alt="QTANCY Logo" width={120} height={40} />
+            <Image src={QTancyFooterLogo} alt="QTANCY Logo" width={240} height={40} />
           </div>
 
           {/* Heading */}
@@ -59,10 +59,10 @@ const FooterSection = () => {
 
       {/* Footer Section */}
       <footer className="bg-black text-white text-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center">
+        <div className="w-full mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center">
           {/* Logo kiri */}
           <div className="mb-4 md:mb-0">
-            <Image src={AppLogo2} alt="QTANCY Logo" width={120} height={40} />
+            <Image src={QTancyFooterLogo} alt="QTANCY Logo" width={100} height={40} />
           </div>
 
           {/* Hak Cipta tengah */}
