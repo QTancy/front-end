@@ -11,7 +11,7 @@ import GoogleLogo from './google-logo.svg';
 import TwitterLogo from './twitter-logo.svg';
 import FacebookLogo from './facebook-logo.svg';
 import SignInIllustration from './sign-in.svg';
-import SignUpIllustration from './sign-up-illustration.svg';
+import SignUpIllustration from './sign-up.svg';
 import ReceiptLogo from './receipt-logo.svg';
 import QRepLogo from './qrep-logo.svg';
 import RightArrowLogo from './arrow-right-logo.svg';

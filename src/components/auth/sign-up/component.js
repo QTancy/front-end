@@ -22,10 +22,10 @@ export default function SignUpForm() {
       <div className="w-full flex justify-center items-center gap-5">
         <div className="flex flex-col gap-9 items-center justify-center">
           <Image
-            src={SignInIllustration}
+            src={SignUpIllustration}
             alt="Sign In Illustration"
-            width={SignInIllustration.width}
-            height={SignInIllustration.height}
+            width={SignUpIllustration.width}
+            height={SignUpIllustration.height}
           />
         </div>
         <div className="max-w-[400px] w-full flex flex-col items-center justify-center  p-4">
