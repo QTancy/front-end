@@ -8,7 +8,7 @@
   --background: #e6fff9;
   --background-secondary: #060a17;
   --foreground: #171717;
-  --primary: #22c55e;
+  --primary: #36d5a7;
   --secondary: #3e54d3;
   --secondary-hover: #081b86;
   --primary-text: #171717;
@@ -130,4 +130,3 @@ body {
 h1.font-tilt-warp {
   font-family: 'Tilt Warp', sans-serif;
 }
-

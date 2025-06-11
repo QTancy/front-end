@@ -11,6 +11,7 @@ import {
   CarLogo,
   Bill,
   TotalExpenses,
+  QTancyHeaderLogo,
 } from '@/icons';
 import Image from 'next/image';
 import style from './style.css';
@@ -171,9 +172,9 @@ export default function ReceiptAnalyse() {
         h(
           'h1',
           {
-            className: 'text-2xl font-extrabold text-[var(--primary)]',
+            className: 'text-2xl font-extrabold text-black',
           },
-          'Hello, Jeno! This is Qrep'
+          'Hello! This is Qrep'
         ),
 
         h(
