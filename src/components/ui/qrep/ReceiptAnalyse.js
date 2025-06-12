@@ -17,34 +17,19 @@ import Image from 'next/image';
 import style from './style.css';
 
 export default function ReceiptAnalyse() {
-  const [paymentType, setPaymentType] = useState('All Payment');
+  // State untuk data dan filter
+  const [dataTransaksi, setDataTransaksi] = useState([]);
+  const [paymentType, setPaymentType] = useState('Semua Payment');
   const [timeRange, setTimeRange] = useState('Harian');
   const [selectedKategori, setSelectedKategori] = useState(['Semua']);
-  /* const [dataTransaksi, setDataTransaksi] = useState([]); */
 
-  const dataTransaksi = [
-    {
-      tanggal: '2025-04-26',
-      nama: 'burger',
-      jumlah: 120000,
-      kategori: 'Makanan & Minuman',
-      tipe: 'Debit',
-    },
-    {
-      tanggal: '2025-04-25',
-      nama: 'tiket permainan',
-      jumlah: 95000,
-      kategori: 'Hiburan',
-      tipe: 'Credit',
-    },
-    {
-      tanggal: '2025-04-24',
-      nama: 'grab car',
-      jumlah: 200000,
-      kategori: 'Transportasi',
-      tipe: 'Debit',
-    },
-  ];
+  // State untuk data chart
+  const [barData, setBarData] = useState({ labels: [], datasets: [] });
+  const [pieData, setPieData] = useState({ labels: [], datasets: [] });
+
+  // State untuk loading dan error handling
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const kategoriList = [
     { nama: 'Semua', icon: AllLogo },
@@ -56,6 +41,228 @@ export default function ReceiptAnalyse() {
     { nama: 'Lainnya', icon: OthersLogo },
   ];
 
+  // --- EFEK 1: Mengambil data dari API saat komponen dimuat (REVISI FINAL) ---
+  useEffect(() => {
+    // Helper function untuk memetakan kategori dari API ke frontend
+    const mapApiCategoryToFrontend = (apiCategory) => {
+      const categoryLower = apiCategory.toLowerCase();
+      switch (categoryLower) {
+        case 'makanan':
+        case 'minuman':
+          return 'Makanan & Minuman';
+        case 'transportasi':
+          return 'Transportasi';
+        case 'atk':
+          return 'ATK';
+        case 'kesehatan':
+          return 'Kesehatan';
+        case 'hiburan':
+          return 'Hiburan';
+        default:
+          return 'Lainnya';
+      }
+    };
+
+    // Helper function untuk memetakan tipe pembayaran
+    const mapApiPaymentType = (apiPayment) => {
+      const paymentLower = apiPayment.toLowerCase();
+      return paymentLower === 'kredit' ? 'Credit' : 'Debit';
+    };
+
+    const fetchReceipts = async () => {
+      // Gunakan token yang BARU dan masih valid
+      const token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0fSwiaWF0IjoxNzQ5NzQ2MTcwLCJleHAiOjE3NDk3NDk3NzB9._mgT27s7RqCB6sl2Q7Ldd9oTZVZyqaeGl1ODRvu3tkw';
+
+      // Ambil URL dari environment variable
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/receipts/my_receipts`;
+      console.log('Mencoba fetch ke URL:', apiUrl);
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Gunakan variabel apiUrl di sini
+        const response = await fetch(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Gagal mengambil data: Status ${response.status} (Mungkin token sudah expired?)`
+          );
+        }
+
+        const apiReceipts = await response.json();
+
+        // Melt data dari struk menjadi daftar item
+        const transformedData = apiReceipts.flatMap((receipt) => {
+          // Lewati jika struk tidak punya item
+          if (!receipt.items || receipt.items.length === 0) {
+            return [];
+          }
+
+          // Ambil informasi dari struk induk
+          const transactionDate = receipt.tanggal_transaksi;
+          const paymentType = mapApiPaymentType(receipt.metode_pembayaran);
+
+          // Buat objek transaksi baru untuk setiap item di dalam struk
+          return receipt.items
+            .filter((item) => item.harga > 0) // Abaikan item yang gratis
+            .map((item) => ({
+              tanggal: transactionDate,
+              nama: item.nama,
+              jumlah: item.harga,
+              kategori: mapApiCategoryToFrontend(item.kategori),
+              tipe: paymentType,
+            }));
+        });
+
+        setDataTransaksi(transformedData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReceipts();
+  }, []); // Dependency array kosong, agar hanya berjalan sekali saat mount
+
+  // --- EFEK 2: Memproses data untuk chart setiap kali data atau filter berubah ---
+  useEffect(() => {
+    if (dataTransaksi.length === 0) return;
+
+    const processData = () => {
+      let filtered = dataTransaksi;
+      if (paymentType !== 'Semua Payment') {
+        filtered = filtered.filter((t) => t.tipe === paymentType);
+      }
+
+      const getMonthName = (date) => {
+        const monthNames = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'Mei',
+          'Jun',
+          'Jul',
+          'Agu',
+          'Sep',
+          'Okt',
+          'Nov',
+          'Des',
+        ];
+        return monthNames[new Date(date).getMonth()];
+      };
+
+      if (timeRange === 'Harian') {
+        const dailyData = filtered.reduce((acc, curr) => {
+          const day = curr.tanggal;
+          if (!acc[day]) acc[day] = 0;
+          acc[day] += curr.jumlah;
+          return acc;
+        }, {});
+        setBarData({
+          labels: Object.keys(dailyData).sort(),
+          datasets: [
+            {
+              label: 'Pengeluaran Harian',
+              data: Object.values(dailyData),
+              backgroundColor: '#4F80E2',
+            },
+          ],
+        });
+      } else {
+        // Bulanan
+        const monthlyData = filtered.reduce((acc, curr) => {
+          const month = getMonthName(curr.tanggal);
+          if (!acc[month]) acc[month] = 0;
+          acc[month] += curr.jumlah;
+          return acc;
+        }, {});
+        setBarData({
+          labels: Object.keys(monthlyData),
+          datasets: [
+            {
+              label: 'Pengeluaran Bulanan',
+              data: Object.values(monthlyData),
+              backgroundColor: '#4F80E2',
+            },
+          ],
+        });
+      }
+
+      // Initial Pie Chart Data (Total)
+      updatePieData(filtered);
+    };
+
+    processData();
+  }, [dataTransaksi, timeRange, paymentType]);
+
+  const updatePieData = (data) => {
+    const kategoriTotals = data.reduce((acc, curr) => {
+      if (!acc[curr.kategori]) acc[curr.kategori] = 0;
+      acc[curr.kategori] += curr.jumlah;
+      return acc;
+    }, {});
+
+    setPieData({
+      labels: Object.keys(kategoriTotals),
+      datasets: [
+        {
+          data: Object.values(kategoriTotals),
+          backgroundColor: [
+            '#4F80E2',
+            '#15CDCA',
+            '#81F0D1',
+            '#FFB347',
+            '#FF6961',
+            '#6A5ACD',
+            '#FAD02E',
+          ],
+        },
+      ],
+    });
+  };
+
+  const handleBarClick = (event, elements) => {
+    if (elements.length > 0) {
+      const elementIndex = elements[0].index;
+      const clickedLabel = barData.labels[elementIndex];
+      let transactionsForLabel;
+
+      if (timeRange === 'Harian') {
+        transactionsForLabel = dataTransaksi.filter(
+          (t) => t.tanggal === clickedLabel
+        );
+      } else {
+        // Bulanan
+        const monthNames = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'Mei',
+          'Jun',
+          'Jul',
+          'Agu',
+          'Sep',
+          'Okt',
+          'Nov',
+          'Des',
+        ];
+        const monthIndex = monthNames.indexOf(clickedLabel);
+        transactionsForLabel = dataTransaksi.filter(
+          (t) => new Date(t.tanggal).getMonth() === monthIndex
+        );
+      }
+      updatePieData(transactionsForLabel);
+    }
+  };
+
   const toggleKategori = (nama) => {
     if (nama === 'Semua') {
       setSelectedKategori(['Semua']);
@@ -63,109 +270,115 @@ export default function ReceiptAnalyse() {
       const newSelected = selectedKategori.includes(nama)
         ? selectedKategori.filter((item) => item !== nama)
         : [...selectedKategori.filter((item) => item !== 'Semua'), nama];
-
       setSelectedKategori(newSelected.length ? newSelected : ['Semua']);
     }
   };
 
-  const filteredData = selectedKategori.includes('Semua')
+  const filteredDataForTable = selectedKategori.includes('Semua')
     ? dataTransaksi
     : dataTransaksi.filter((t) => selectedKategori.includes(t.kategori));
 
-  const kategoriTotals = filteredData.reduce((acc, curr) => {
-    if (!acc[curr.kategori]) {
-      acc[curr.kategori] = 0;
-    }
-    acc[curr.kategori] += curr.jumlah;
-    return acc;
-  }, {});
+  const totalExpenses = filteredDataForTable.reduce(
+    (sum, t) => sum + t.jumlah,
+    0
+  );
+  const totalReceipts = filteredDataForTable.length;
 
-  const totalExpenses = filteredData.reduce((sum, t) => sum + t.jumlah, 0);
-  const totalReceipts = filteredData.length;
-
-  const barData = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    datasets: [
-      {
-        label: 'Pengeluaran',
-        data: [150000, 190000, 160000, 130000, 110000, 170000, 140000],
-        backgroundColor: '#4F80E2',
-      },
-    ],
-  };
-
-  const pieData = {
-    labels: Object.keys(kategoriTotals),
-    datasets: [
-      {
-        data: Object.values(kategoriTotals),
-        backgroundColor: [
-          '#4F80E2',
-          '#15CDCA',
-          '#81F0D1',
-          '#FFB347',
-          '#FF6961',
-          '#6A5ACD',
-          '#FAD02E',
-        ],
-      },
-    ],
-  };
-
+  // --- Opsi untuk Chart ---
   const pieOptions = {
     plugins: {
       tooltip: {
         callbacks: {
           label: function (context) {
             const total = context.dataset.data.reduce((a, b) => a + b, 0);
+
             const value = context.raw;
+
             const percentage = ((value / total) * 100).toFixed(1);
+
             return `${context.label}: ${percentage}%`;
           },
         },
+
         backgroundColor: 'rgba(255, 255, 255, 0.55)', // 35% opacity white
+
         titleColor: '#0F172A',
+
         bodyColor: '#0F172A',
+
         borderColor: 'gray',
+
         borderWidth: 1,
+
         titleFont: {
           weight: 'bold',
+
           size: 14,
         },
+
         bodyFont: {
           weight: 'normal',
+
           size: 14,
         },
+
         padding: 12,
+
         displayColors: false,
       },
     },
   };
-
   const barOptions = {
     plugins: {
       tooltip: {
         backgroundColor: 'rgba(255, 255, 255, 0.55)', // 40% opacity white
+
         titleColor: '#0F172A',
+
         bodyColor: '#0F172A',
+
         borderColor: 'gray',
+
         borderWidth: 1,
+
         titleFont: {
           weight: 'bold',
+
           size: 14,
         },
+
         bodyFont: {
           weight: 'normal',
+
           size: 14,
         },
+
         padding: 12,
+
         displayColors: false,
       },
     },
   };
 
+  // --- Conditional Rendering ---
+  if (loading) {
+    return h(
+      'div',
+      { className: 'flex justify-center items-center h-screen' },
+      'Memuat data transaksi...'
+    );
+  }
+
+  if (error) {
+    return h(
+      'div',
+      { className: 'flex justify-center items-center h-screen text-red-500' },
+      `Error: ${error}`
+    );
+  }
+
+  // --- Render Komponen Utama ---
   return h('main', { className: 'w-full max-w-6xl p-6 space-y-6 mx-auto' }, [
-    // BOX PERTAMA
     h(
       'div',
       {
@@ -278,7 +491,7 @@ export default function ReceiptAnalyse() {
                         }),
                         h(
                           'p',
-                          { className: 'text-lg mt-2' },
+                          { className: 'font-bold text-xl mt-2' },
                           `Rp. ${totalExpenses.toLocaleString()}`
                         ),
                       ]
@@ -298,7 +511,7 @@ export default function ReceiptAnalyse() {
                         }),
                         h(
                           'p',
-                          { className: 'text-lg mt-2' },
+                          { className: 'font-bold text-2xl mt-3' },
                           `${totalReceipts}`
                         ),
                       ]
@@ -330,14 +543,6 @@ export default function ReceiptAnalyse() {
                         ),
 
                         h('div', {}, [
-                          h(
-                            'p',
-                            {
-                              className:
-                                'text-sm text-right mb-1 text-gray-500',
-                            },
-                            '20 - 26 April, 2025'
-                          ),
                           h(Bar, { data: barData, options: barOptions }),
                         ]),
                       ]
@@ -399,56 +604,51 @@ export default function ReceiptAnalyse() {
           'Histori Transaksi'
         ),
 
-        h(
-          'div',
-          { className: 'overflow-auto' }, // dibungkus agar table scroll tetap terjaga
-          [
-            h(
-              'table',
-              {
-                className: 'w-full text-left border-collapse text-[#0F172A]',
-              },
-              [
-                h('thead', {}, [
+        h('div', { className: 'overflow-auto' }, [
+          h(
+            'table',
+            {
+              className: 'w-full text-left border-collapse text-[#0F172A]',
+            },
+            [
+              h('thead', {}, [
+                h(
+                  'tr',
+                  {
+                    className: 'bg-[#4FE0B6] border-b border-[#CBD5E1]',
+                  },
+                  [
+                    h('th', { className: 'py-2' }, 'Tanggal'),
+                    h('th', {}, 'Item'),
+                    h('th', {}, 'Jumlah'),
+                    h('th', {}, 'Kategori'),
+                    h('th', {}, 'Tipe'),
+                  ]
+                ),
+              ]),
+              h(
+                'tbody',
+                {},
+                filteredDataForTable.map((t, i) =>
                   h(
                     'tr',
                     {
-                      className: 'bg-[#4FE0B6] border-b border-[#CBD5E1]',
+                      key: i,
+                      className: 'border-b border-[#CBD5E1] hover:bg-[#F1F5F9]',
                     },
                     [
-                      h('th', { className: 'py-2' }, 'Tanggal'),
-                      h('th', {}, 'Item'),
-                      h('th', {}, 'Jumlah'),
-                      h('th', {}, 'Kategori'),
-                      h('th', {}, 'Tipe'),
+                      h('td', { className: 'py-2' }, t.tanggal),
+                      h('td', {}, t.nama),
+                      h('td', {}, `Rp. ${t.jumlah.toLocaleString()}`),
+                      h('td', {}, t.kategori),
+                      h('td', {}, t.tipe),
                     ]
-                  ),
-                ]),
-                h(
-                  'tbody',
-                  {},
-                  filteredData.map((t, i) =>
-                    h(
-                      'tr',
-                      {
-                        key: i,
-                        className:
-                          'border-b border-[#CBD5E1] hover:bg-[#F1F5F9]',
-                      },
-                      [
-                        h('td', { className: 'py-2' }, t.tanggal),
-                        h('td', {}, t.nama),
-                        h('td', {}, `Rp. ${t.jumlah.toLocaleString()}`),
-                        h('td', {}, t.kategori),
-                        h('td', {}, t.tipe),
-                      ]
-                    )
                   )
-                ),
-              ]
-            ),
-          ]
-        ),
+                )
+              ),
+            ]
+          ),
+        ]),
       ]
     ),
   ]);

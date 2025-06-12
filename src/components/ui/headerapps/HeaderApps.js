@@ -28,7 +28,7 @@ export default function HeaderApps() {
 
   return (
     <>
-      <div class="sticky top-0 z-50 bg-[#3E54D3] shadow-lg">
+      <div class="sticky top-0 z-30 bg-[#3E54D3] shadow-lg">
         <header className="bg-[#3E54D3] text-white p-4 flex items-center justify-between shadow-lg">
           <div className="flex items-center gap-3">
             <button
