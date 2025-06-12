@@ -1,4 +1,4 @@
-import { useState, createElement as h } from 'react';
+import { useState, useEffect, createElement as h } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 import {
@@ -18,24 +18,28 @@ import style from './style.css';
 
 export default function ReceiptAnalyse() {
   const [paymentType, setPaymentType] = useState('All Payment');
-  const [timeRange, setTimeRange] = useState('Mingguan');
+  const [timeRange, setTimeRange] = useState('Harian');
   const [selectedKategori, setSelectedKategori] = useState(['Semua']);
+  /* const [dataTransaksi, setDataTransaksi] = useState([]); */
 
   const dataTransaksi = [
     {
       tanggal: '2025-04-26',
+      nama: 'burger',
       jumlah: 120000,
       kategori: 'Makanan & Minuman',
       tipe: 'Debit',
     },
     {
       tanggal: '2025-04-25',
+      nama: 'tiket permainan',
       jumlah: 95000,
       kategori: 'Hiburan',
       tipe: 'Credit',
     },
     {
       tanggal: '2025-04-24',
+      nama: 'grab car',
       jumlah: 200000,
       kategori: 'Transportasi',
       tipe: 'Debit',
@@ -174,7 +178,7 @@ export default function ReceiptAnalyse() {
           {
             className: 'text-2xl font-extrabold text-black',
           },
-          'Hello! This is Qrep'
+          'Hello! This is QRep'
         ),
 
         h(
@@ -209,7 +213,7 @@ export default function ReceiptAnalyse() {
                 value: timeRange,
                 onChange: (e) => setTimeRange(e.target.value),
               },
-              ['Bulanan', 'Mingguan', 'Harian'].map((opt) =>
+              ['Bulanan', 'Harian'].map((opt) =>
                 h('option', { key: opt, value: opt }, opt)
               )
             ),
@@ -413,6 +417,7 @@ export default function ReceiptAnalyse() {
                     },
                     [
                       h('th', { className: 'py-2' }, 'Tanggal'),
+                      h('th', {}, 'Item'),
                       h('th', {}, 'Jumlah'),
                       h('th', {}, 'Kategori'),
                       h('th', {}, 'Tipe'),
@@ -432,6 +437,7 @@ export default function ReceiptAnalyse() {
                       },
                       [
                         h('td', { className: 'py-2' }, t.tanggal),
+                        h('td', {}, t.nama),
                         h('td', {}, `Rp. ${t.jumlah.toLocaleString()}`),
                         h('td', {}, t.kategori),
                         h('td', {}, t.tipe),
