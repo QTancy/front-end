@@ -30,17 +30,22 @@ export default function SignInForm() {
     setError(null);
 
     try {
-      await signIn(email,password)
-      await new Promise(resolve => setTimeout(resolve,100))
-      Swal.fire({
-          title: "Sign In Berhasil!",
-          icon : "success",
-          timer : 1500,
-          showConfirmButton:false
-        }
-      ).then(()=>{
-        router.push('/qcap')
-      })
+      const response = await signIn(email,password)
+      const token = response.user.token
+      console.log(token)
+      if(token) { 
+        localStorage.setItem('token',token)
+        console.log("TOKEN DISIMPAN");
+        Swal.fire({
+            title: "Sign In Berhasil!",
+            icon : "success",
+            timer : 1500,
+            showConfirmButton:false
+          }
+        ).then(()=>{
+          router.push('/qcap')
+        })
+      }
     } catch (error) { 
       setError(error.message || 'Terjadi kesalahan saat sign in. Silakan coba lagi.');
     } finally { 

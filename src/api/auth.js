@@ -36,16 +36,7 @@ export async function signIn(email, password) {
         })
 
         const data = await response.json()
-        const jwtFromBody = data.token;
-
-        cookies().set('authToken', jwtFromBody, {
-            httpOnly: true,
-            secure: true, 
-            sameSite: 'Lax',
-            maxAge: 3600 * 1000, 
-            path: '/',
-        });
-
+        
         if(!response.ok) { 
             throw new Error(data.message || 'Sign In Gagal!')
         }
