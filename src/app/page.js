@@ -26,28 +26,28 @@ export default function Home() {
         <HeroSection />
       </AnimatedSection>
 
-      {/* FOOTER TEAM SECTION */}
-      <AnimatedSection animationType="fadeUp">
+      {/* OUR TEAM SECTION */}
+      <AnimatedSection animationType="fadeUp" id="our-team-section"> {/* Tambahkan ID ini */}
         <FooterTeam />
       </AnimatedSection>
 
-      {/* FUNCTION SECTION */}
-      <AnimatedSection animationType='fadeRight'>
+      {/* WHY QTANCY / FUNCTION SECTION */}
+      <AnimatedSection animationType='fadeRight' id="why-qtancy-section"> {/* Tambahkan ID ini */}
         <WhyQTancySection/>
       </AnimatedSection>
 
-      {/* Qcap Section Function */}
-      <AnimatedSection animationType='fadeLeft'>
+      {/* OUR PRODUCT SECTION - QCAP */}
+      <AnimatedSection animationType='fadeLeft' id="qcap-product-section"> {/* Tambahkan ID ini */}
         <QcapFunctionSection/>
       </AnimatedSection>
 
-      {/* Qrap Section Function */}
-      <AnimatedSection animationType='fadeRight'>
+      {/* OUR PRODUCT SECTION - QREP */}
+      <AnimatedSection animationType='fadeRight' id="qrep-product-section"> {/* Tambahkan ID ini */}
         <QrepFunctionSection/>
       </AnimatedSection>
 
       {/* FAQ NEW SECTION */}
-      <AnimatedSection animationType='fadeUp'>
+      <AnimatedSection animationType='fadeUp' id="faq-section"> {/* Tambahkan ID ini */}
         <FaqNewSection/>
       </AnimatedSection>
 

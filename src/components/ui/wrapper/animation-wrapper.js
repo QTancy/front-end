@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const AnimatedSection = ({ children, animationType="fadeup", delay=0 }) => {
+const AnimatedSection = ({ children, animationType="fadeup", delay=0, ...restProps }) => {
     const sectionRef = useRef(null);
 
     useEffect(() => {
@@ -65,7 +65,7 @@ const AnimatedSection = ({ children, animationType="fadeup", delay=0 }) => {
     }, [animationType,delay])
 
     return (
-        <div ref={sectionRef} style={{overflow:'hidden'}}>
+        <div ref={sectionRef} style={{overflow:'hidden'}} {...restProps}>
             {children}
         </div>
     )
