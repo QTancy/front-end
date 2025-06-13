@@ -1,6 +1,9 @@
 import { useState, useRef } from 'react';
 import ReceiptOverlay from './ReceiptOverlay';
 import ReceiptDisplay from './ReceiptDisplay';
+import { UploadIcon } from '@/icons';
+import Image from 'next/image';
+import Button from '../buttons/buttons';
 
 export default function ReceiptUploader() {
   const [showOverlay, setShowOverlay] = useState(false);
@@ -110,7 +113,7 @@ export default function ReceiptUploader() {
 
   // Kalau belum ada gambar konfirmasi, tampilkan uploader
   return (
-    <div className="w-full min-h-screen bg-[#dcfaf8] flex flex-col items-center px-4 py-10">
+    <div className="w-full min-h-screen flex flex-col items-center px-4 py-10">
       <div className="text-center mb-10">
         <h1 className="text-xl font-bold text-black">
           Hallo! This is <span className="font-extrabold">QCap</span>
@@ -131,9 +134,10 @@ export default function ReceiptUploader() {
           onDragOver={handleDragOver}
           className="flex-[2] bg-[#e6f3fe] border-2 border-dashed border-[#2b91ec] rounded-xl px-6 py-10 flex flex-col items-center justify-center text-center space-y-2 shadow-sm"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12v9m0 0l-3-3m3 3l3-3M12 3v9" />
-          </svg>
+          <Image 
+            src = {UploadIcon}
+            alt='Upload Icon'
+          />
           <p className="text-base font-semibold text-black">Drop file here</p>
           <p className="text-sm text-gray-600">OR</p>
           <div className="flex gap-4">

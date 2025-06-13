@@ -38,6 +38,7 @@ import FoodLogo from './food-logo.svg';
 import CarLogo from './car-logo.svg';
 import TotalExpenses from './totalexpenses.svg';
 import Bill from './bill.svg';
+import UploadIcon from './upload-icon.svg';
 import QTancyHeaderLogo from './qtancy-logo-header.svg';
 import QTancyFooterLogo from './qtancy-logo-footer.svg';
 
@@ -83,5 +84,6 @@ export {
   FoodLogo,
   HouseLogo,
   QTancyHeaderLogo,
-  QTancyFooterLogo
+  QTancyFooterLogo,
+  UploadIcon
 };

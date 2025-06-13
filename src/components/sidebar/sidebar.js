@@ -101,7 +101,7 @@ export default function Sidebar({ isOpen, onClose }) {
             QRep
           </Link>
           <Link
-            href="/profile"
+            href="/settings"
             className="bg-white p-2 rounded flex items-center gap-2 text-black hover:bg-gray-200"
             onClick={onClose}
           >

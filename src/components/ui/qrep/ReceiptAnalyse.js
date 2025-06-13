@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect, createElement as h } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
@@ -15,6 +16,7 @@ import {
 } from '@/icons';
 import Image from 'next/image';
 import style from './style.css';
+import { fetchData } from '@/api/qrep';
 
 export default function ReceiptAnalyse() {
   // State untuk data dan filter
@@ -70,54 +72,36 @@ export default function ReceiptAnalyse() {
     };
 
     const fetchReceipts = async () => {
-      // Gunakan token yang BARU dan masih valid
-      const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0fSwiaWF0IjoxNzQ5NzQ2MTcwLCJleHAiOjE3NDk3NDk3NzB9._mgT27s7RqCB6sl2Q7Ldd9oTZVZyqaeGl1ODRvu3tkw';
-
-      // Ambil URL dari environment variable
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/receipts/my_receipts`;
-      console.log('Mencoba fetch ke URL:', apiUrl);
       setLoading(true);
       setError(null);
-
       try {
-        // Gunakan variabel apiUrl di sini
-        const response = await fetch(apiUrl, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(
-            `Gagal mengambil data: Status ${response.status} (Mungkin token sudah expired?)`
-          );
-        }
-
-        const apiReceipts = await response.json();
-
-        // Melt data dari struk menjadi daftar item
-        const transformedData = apiReceipts.flatMap((receipt) => {
-          // Lewati jika struk tidak punya item
-          if (!receipt.items || receipt.items.length === 0) {
-            return [];
+          const apiReceipts = await fetchData()
+          console.log("Data mentah dari API:", apiReceipts);
+          if (!apiReceipts || apiReceipts.length === 0) {
+            setLoading(false);
+            return;
           }
+          
+          const transformedData = apiReceipts.flatMap((receipt) => {
+            if (!receipt.items || receipt.items.length === 0) {
+              return [];
+            }
 
-          // Ambil informasi dari struk induk
-          const transactionDate = receipt.tanggal_transaksi;
-          const paymentType = mapApiPaymentType(receipt.metode_pembayaran);
 
-          // Buat objek transaksi baru untuk setiap item di dalam struk
-          return receipt.items
-            .filter((item) => item.harga > 0) // Abaikan item yang gratis
-            .map((item) => ({
-              tanggal: transactionDate,
-              nama: item.nama,
-              jumlah: item.harga,
-              kategori: mapApiCategoryToFrontend(item.kategori),
-              tipe: paymentType,
-            }));
-        });
+            const transactionDate = receipt.tanggal_transaksi;
+            const paymentType = mapApiPaymentType(receipt.metode_pembayaran);
+
+            // Buat objek transaksi baru untuk setiap item di dalam struk
+            return receipt.items
+              .filter((item) => item.harga > 0) // Abaikan item yang gratis
+              .map((item) => ({
+                tanggal: transactionDate,
+                nama: item.nama,
+                jumlah: item.harga,
+                kategori: mapApiCategoryToFrontend(item.kategori),
+                tipe: paymentType,
+              }));
+          });
 
         setDataTransaksi(transformedData);
       } catch (err) {
