@@ -523,7 +523,7 @@ export default function ReceiptAnalyse() {
         h(
           'button',
           {
-            key: idx,
+            key: item.nama,
             className: `flex items-center justify-center gap-1 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-[13px] border-[2px] border-[#B9B9B9] font-medium text-xs sm:text-sm ${
               selectedKategori.includes(item.nama)
                 ? 'bg-[#15CDCA] border-[#0A918E] text-white [text-shadow:0px_0px_5px_rgba(0,0,0,0.3)] drop-shadow-md'
@@ -590,7 +590,7 @@ export default function ReceiptAnalyse() {
                     h(
                       'tr',
                       {
-                        key: i,
+                        key: `${t.tanggal}-${t.nama}-${t.jumlah}-${i}`,
                         className: 'border-b border-[#CBD5E1] hover:bg-[#F1F5F9]',
                       },
                       [
