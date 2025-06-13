@@ -31,8 +31,8 @@ export default function SignInForm() {
   }, []);
 
   const handleSignIn = async (e) => {
-    e.preventDefault();
-    e.preventDefault();
+    e.preventDefault(); // Baris ini sudah cukup
+    // e.preventDefault(); // <-- Hapus baris duplikat ini
     setIsLoading(true);
     setError(null);
 
@@ -64,8 +64,7 @@ export default function SignInForm() {
     } finally {
       setIsLoading(false);
     }
-  };
-  };
+  }; // <-- Penutup handleSignIn yang benar. Tidak ada lagi di bawahnya.
 
   return (
     <div 

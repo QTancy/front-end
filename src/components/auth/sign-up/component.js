@@ -33,14 +33,14 @@ export default function SignUpForm() {
   }, []);
 
   const handleSignUp = async (e) => {
-    e.preventDefault();
-    e.preventDefault();
+    e.preventDefault(); // Baris ini sudah cukup
+    // e.preventDefault(); // <-- Hapus baris duplikat ini
     setIsLoading(true);
     setError(null);
 
     try {
-      await signUp(name, email, password);
-      await signUp(name, email, password);
+      await signUp(name, email, password); // Baris ini sudah cukup
+      // await signUp(name, email, password); // <-- Hapus baris duplikat ini
       Swal.fire({
         title: "Sign Up Berhasil!",
         icon: "success",
@@ -51,7 +51,7 @@ export default function SignUpForm() {
           router.push("/sign-in");
         }
       });
-    } catch (error) { 
+    } catch (error) {
       setError(error.message || 'Terjadi kesalahan saat sign up. Silakan coba lagi.');
       Swal.fire({
         icon: "error",
@@ -61,21 +61,20 @@ export default function SignUpForm() {
     } finally {
       setIsLoading(false);
     }
-  };
-  };
+  }; // <-- Penutup handleSignUp yang benar. Tidak ada lagi di bawahnya.
 
   return (
-    <div 
-      ref={formContainerRef} 
-      className='w-full max-w-sm sm:max-w-md md:max-w-3xl lg:max-w-4xl xl:max-w-5xl 
-                 p-6 sm:p-8 md:p-9 rounded-3xl bg-[#36D5A7] drop-shadow-xl shadow-xl 
+    <div
+      ref={formContainerRef}
+      className='w-full max-w-sm sm:max-w-md md:max-w-3xl lg:max-w-4xl xl:max-w-5xl
+                 p-6 sm:p-8 md:p-9 rounded-3xl bg-[#36D5A7] drop-shadow-xl shadow-xl
                  mx-auto'
     >
-      <Link href='/' className='flex items-center w-fit mb-3 text-white'> {/* Tambahkan text-white */}
+      <Link href='/' className='flex items-center w-fit mb-3 text-white'>
         <ChevronLeft/>
-        <p className='font-bold text-sm sm:text-base'>Homepage</p> {/* Sesuaikan ukuran font */}
+        <p className='font-bold text-sm sm:text-base'>Homepage</p>
       </Link>
-      <div className="w-full flex flex-col md:flex-row-reverse justify-center items-center gap-6 sm:gap-8 md:gap-10"> {/* flex-col di mobile, flex-row-reverse di desktop, sesuaikan gap */}
+      <div className="w-full flex flex-col md:flex-row-reverse justify-center items-center gap-6 sm:gap-8 md:gap-10">
         {/* Illustration Section - Sembunyikan di mobile kecil, tampil di md ke atas */}
         <div className="hidden md:flex flex-col gap-9 items-center justify-center md:w-1/2">
           <Image
@@ -83,22 +82,22 @@ export default function SignUpForm() {
             alt="Sign Up Illustration"
             width={SignUpIllustration.width}
             height={SignUpIllustration.height}
-            className="w-full h-auto max-w-xs md:max-w-full object-contain" // Sesuaikan ukuran gambar responsif
+            className="w-full h-auto max-w-xs md:max-w-full object-contain"
           />
         </div>
         {/* Form Section */}
-        <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-0 sm:p-4"> {/* Hapus p-4 tetap, gunakan p-0 atau padding lebih kecil */}
+        <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-0 sm:p-4">
           <div className='w-full flex flex-col items-center text-center'>
-            <div className="flex flex-col text-white gap-1 justify-center items-center mb-4"> {/* Tambahkan margin-bottom */}
-              <h1 className="font-bold text-2xl sm:text-3xl">Sign Up</h1> {/* Sesuaikan ukuran font */}
-              <p className="text-sm sm:text-base">Masukkan Informasi untuk Melakukan Sign Up</p> {/* Sesuaikan ukuran font */}
+            <div className="flex flex-col text-white gap-1 justify-center items-center mb-4">
+              <h1 className="font-bold text-2xl sm:text-3xl">Sign Up</h1>
+              <p className="text-sm sm:text-base">Masukkan Informasi untuk Melakukan Sign Up</p>
             </div>
-            <form className="flex flex-col w-full gap-3 sm:gap-4 mt-2 sm:mt-4" onSubmit={handleSignUp}> {/* Sesuaikan gap dan margin-top */}
+            <form className="flex flex-col w-full gap-3 sm:gap-4 mt-2 sm:mt-4" onSubmit={handleSignUp}>
               <input
                 className="w-full px-4 py-2 text-sm sm:text-md bg-white rounded-md text-gray-800 transition-all duration-300 focus:border-transparent focus:outline-blue-400 focus:ring-2 focus:ring-blue-400"
                 placeholder="Nama Lengkap"
                 id="name"
-                type="text" // Ubah type dari string ke text
+                type="text"
                 name="name"
                 autoComplete="name"
                 value={name}
@@ -127,11 +126,11 @@ export default function SignUpForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <Button 
-                color="secondary" 
+              <Button
+                color="secondary"
                 text={isLoading ? "Memuat..." : "Sign Up" }
-                disabled={isLoading} 
-                className="transition-all duration-150 active:scale-[0.98] mt-2" // Tambahkan margin-top
+                disabled={isLoading}
+                className="transition-all duration-150 active:scale-[0.98] mt-2"
               />
             </form>
             <div className="flex flex-row text-white gap-1 justify-center items-center mt-3 sm:mt-4">
