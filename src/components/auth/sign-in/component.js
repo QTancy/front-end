@@ -20,7 +20,7 @@
 // export default function SignInForm() {
 //   const [email, setEmail] = useState('');
 //   const [password, setPassword] = useState('');
-//   const [isLoading, setIsLoading] = useState(false); 
+//   const [isLoading, setIsLoading] = useState(false);
 //   const [error, setError] = useState(null);
 //   const router = useRouter();
 
@@ -33,7 +33,7 @@
 //       const response = await signIn(email,password)
 //       const token = response.user.token
 //       console.log(token)
-//       if(token) { 
+//       if(token) {
 //         localStorage.setItem('token',token)
 //         console.log("TOKEN DISIMPAN");
 //         Swal.fire({
@@ -46,13 +46,12 @@
 //           router.push('/qcap')
 //         })
 //       }
-//     } catch (error) { 
+//     } catch (error) {
 //       setError(error.message || 'Terjadi kesalahan saat sign in. Silakan coba lagi.');
-//     } finally { 
+//     } finally {
 //       setIsLoading(false);
 //     }
 //   }
-
 
 //   return (
 //     <div className='w-fit p-9 rounded-3xl bg-[var(--primary)] drop-shadow-xl shadow-xl'>
@@ -98,10 +97,10 @@
 //                   text: `${error}`,
 //                 })
 //               )}
-//               <Button 
-//                 color="secondary" 
+//               <Button
+//                 color="secondary"
 //                 text={isLoading ? "Memuat..." : "Sign In" }
-//                 disabled = {isLoading} 
+//                 disabled = {isLoading}
 //               />
 //             </form>
 //             <div className="flex flex-row text-white gap-1 justify-center items-center mt-4">
@@ -122,7 +121,7 @@
 //   );
 // }
 
-'use client'
+'use client';
 
 import Button from '@/components/ui/buttons/buttons';
 import IconsWrapper from '@/components/ui/wrapper/icons-wrapper'; // Tidak digunakan, bisa dihapus jika tidak perlu
@@ -145,7 +144,7 @@ import gsap from 'gsap'; // Import GSAP
 export default function SignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
   const formContainerRef = useRef(null); // Buat ref untuk kontainer form
@@ -157,62 +156,73 @@ export default function SignInForm() {
         opacity: 0,
         y: 50, // Geser dari bawah
         duration: 0.8, // Durasi animasi
-        ease: "power3.out", // Jenis easing
-        delay: 0.2 // Sedikit penundaan agar muncul lebih halus
+        ease: 'power3.out', // Jenis easing
+        delay: 0.2, // Sedikit penundaan agar muncul lebih halus
       });
     }
   }, []); // Dependency array kosong agar hanya berjalan sekali saat mount
 
   const handleSignIn = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await signIn(email,password)
-      const token = response.user.token
-      console.log(token)
-      if(token) { 
-        localStorage.setItem('token',token)
-        console.log("TOKEN DISIMPAN");
+      const response = await signIn(email, password);
+      const token = response.user.token;
+      console.log(token);
+      if (token) {
+        localStorage.setItem('token', token);
+        console.log('TOKEN DISIMPAN');
         Swal.fire({
-            title: "Sign In Berhasil!",
-            icon : "success",
-            timer : 1500,
-            showConfirmButton:false
-          }
-        ).then(()=>{
-          router.push('/qcap') // Pastikan path ini benar
-        })
+          title: 'Sign In Berhasil!',
+          icon: 'success',
+          timer: 1500,
+          showConfirmButton: false,
+        }).then(() => {
+          router.push('/qcap'); // Pastikan path ini benar
+        });
       }
-    } catch (error) { 
-      setError(error.message || 'Terjadi kesalahan saat sign in. Silakan coba lagi.');
+    } catch (error) {
+      setError(
+        error.message || 'Terjadi kesalahan saat sign in. Silakan coba lagi.'
+      );
       // Tampilkan error di Swal.fire agar tidak terlewat
       Swal.fire({
-        icon: "error",
-        title: "Gagal Sign In!",
-        text: error.message || 'Terjadi kesalahan saat sign in. Silakan coba lagi.',
+        icon: 'error',
+        title: 'Gagal Sign In!',
+        text:
+          error.message || 'Terjadi kesalahan saat sign in. Silakan coba lagi.',
       });
-    } finally { 
+    } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     // Gunakan ref pada div kontainer utama
-    <div ref={formContainerRef} className='w-fit p-9 rounded-3xl bg-[var(--primary)] drop-shadow-xl shadow-xl'>
-      <Link href='/' className='flex w-fit items-left mb-3'>
-        <ChevronLeft/>
-        <p className='font-bold'>Homepage</p>
+    <div
+      ref={formContainerRef}
+      className="w-fit p-9 rounded-3xl bg-[var(--primary)] drop-shadow-xl shadow-xl"
+    >
+      <Link
+        href="/"
+        className="flex w-fit items-left mb-3 hover:text-white hover:text-shadow-md transition-colors duration-200"
+      >
+        <ChevronLeft />
+        <p className="font-bold">Homepage</p>
       </Link>
       <div className="w-full flex justify-center items-center gap-5">
         <div className="max-w-[400px] w-full flex flex-col items-center justify-center p-4">
-          <div className='w-full flex flex-col items-center text-center'>
+          <div className="w-full flex flex-col items-center text-center">
             <div className="flex flex-col text-white gap-1 justify-center items-center">
               <h1 className="font-bold text-3xl">Sign In</h1>
               <p className="text-sm">Masukkan Email Anda Untuk Sign In</p>
             </div>
-            <form className="flex flex-col w-full gap-4 mt-4" onSubmit={handleSignIn}>
+            <form
+              className="flex flex-col w-full gap-4 mt-4"
+              onSubmit={handleSignIn}
+            >
               <input
                 className="w-full px-4 py-2 text-md bg-white rounded-md text-gray-800 transition-all duration-300 focus:border-transparent focus:outline-blue-400 focus:ring-2 focus:ring-blue-400" // Tambahan: transition, focus:ring-2
                 placeholder="Alamat Email"
@@ -237,15 +247,22 @@ export default function SignInForm() {
                 required
               />
               {/* Error SweetAlert dipindah ke dalam catch block untuk eksekusi yang lebih terkontrol */}
-              <Button 
-                color="secondary" 
-                text={isLoading ? "Memuat..." : "Sign In" }
-                disabled = {isLoading} 
+              <Button
+                color="secondary"
+                text={isLoading ? 'Memuat...' : 'Sign In'}
+                disabled={isLoading}
                 className="transition-all duration-150 active:scale-[0.98]" // Tambahan: active:scale
               />
             </form>
             <div className="flex flex-row text-white gap-1 justify-center items-center mt-4">
-              <p className="text-sm">Belum memiliki Akun? Klik disini untuk <Link href='/sign-up'><span className='text-[var(--secondary)] font-bold'>Sign Up</span></Link></p>
+              <p className="text-sm">
+                Belum memiliki Akun? Klik disini untuk{' '}
+                <Link href="/sign-up">
+                  <span className="text-[var(--secondary)] font-bold hover:underline cursor-pointer">
+                    Sign Up
+                  </span>
+                </Link>
+              </p>
             </div>
           </div>
         </div>
