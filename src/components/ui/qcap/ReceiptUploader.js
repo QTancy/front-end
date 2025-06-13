@@ -278,7 +278,7 @@ export default function ReceiptUploader() {
             <div className="w-full sm:flex-1"> {/* w-full di mobile, flex-1 di sm: */}
               <label className="text-sm text-black font-semibold block mb-1">Bahasa Pada Struk</label>
               <div className="flex w-full rounded-md border border-gray-400 overflow-hidden"> {/* Ubah w-60 menjadi w-full */}
-                {['ID', 'EN'].map((lang) => (
+                {['ID', 'US'].map((lang) => (
                   <button
                     key={lang}
                     onClick={() => {
