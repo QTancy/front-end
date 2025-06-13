@@ -1,4 +1,5 @@
 'use server'
+import { cookies } from "next/headers"
 const BASE_URL = process.env.QTANCY_URL
 
 export async function signUp(name, email, password) {
@@ -35,6 +36,15 @@ export async function signIn(email, password) {
         })
 
         const data = await response.json()
+        const jwtFromBody = data.token;
+
+        cookies().set('authToken', jwtFromBody, {
+            httpOnly: true,
+            secure: true, 
+            sameSite: 'Lax',
+            maxAge: 3600 * 1000, 
+            path: '/',
+        });
 
         if(!response.ok) { 
             throw new Error(data.message || 'Sign In Gagal!')
