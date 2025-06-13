@@ -31,13 +31,16 @@ export default function SignInForm() {
 
     try {
       await signIn(email,password)
+      await new Promise(resolve => setTimeout(resolve,100))
       Swal.fire({
           title: "Sign In Berhasil!",
           icon : "success",
+          timer : 1500,
+          showConfirmButton:false
         }
-      ).then(
+      ).then(()=>{
         router.push('/qcap')
-      )
+      })
     } catch (error) { 
       setError(error.message || 'Terjadi kesalahan saat sign in. Silakan coba lagi.');
     } finally { 
