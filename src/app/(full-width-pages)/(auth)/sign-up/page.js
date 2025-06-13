@@ -1,11 +1,8 @@
-import SignInForm from '@/components/auth/sign-in/component';
 import SignUpForm from '@/components/auth/sign-up/component';
-import HeadNavigation from '@/components/header/head-navigation';
 
 export default function SignUp() {
   return (
-    <div className="w-full flex flex-col gap-38">
-      <HeadNavigation />
+    <div className="h-screen flex justify-center items-center">
       <SignUpForm />
     </div>
   );

@@ -5,19 +5,23 @@
 
 /* Light Mode */
 :root {
-  --background: #ffffff;
+  --background: #e6fff9;
   --background-secondary: #060a17;
   --foreground: #171717;
-  --primary: #22c55e;
+  --primary: #36D5A7;
   --secondary: #3e54d3;
+  --secondary-hover: #081b86;
   --primary-text: #171717;
   --secondary-text: #ffffff;
   --on-background: #828282;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --background-primary: var(--secondary);
+  --color-buttonText: var(--secondary-text);
+  --color-primary: var(--primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -27,16 +31,18 @@
   :root {
     --foreground: #ededed;
     --background: #0a0a0a;
+    --background-secondary: #fffff;
     --primary: #22c55e;
     --secondary: #3e54d3;
-    --primary-text: #171717;
+    --primary-text: #ffff;
     --secondary-text: #ffffff;
     --on-background: #828282;
   }
 }
 
 body {
-  background: var(--background);
+  overflow-x: hidden;
+  background: white;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -48,12 +54,12 @@ body {
 
 .custom-button-secondary {
   background-color: var(--secondary);
-  color: var(--background);
+  color: var(--secondary-text);
 }
 
 .sign-form {
   background-color: var(--primary);
-  color: var(--background);
+  color: var(--primary-text);
 }
 
 .link-in-sign-form {
@@ -119,4 +125,8 @@ body {
 
 .faq-wrapper:hover .hide {
   display: block;
+}
+
+h1.font-tilt-warp {
+  font-family: 'Tilt Warp', sans-serif;
 }

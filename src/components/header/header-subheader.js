@@ -1,3 +1,11 @@
+/**
+ *
+ * @param {string} header Judul utama
+ * @param {string} subHeader Sub judul
+ * @param {string} subColor Warna text untuk subHeader (opsi : primary-text atau secondary-text)
+ * @returns
+ */
+
 export default function HeaderSubHeader({ header, subHeader, subColor }) {
   return (
     <div className="w-full  flex justify-center items-center flex-col gap-2">
