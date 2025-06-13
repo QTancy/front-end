@@ -7,7 +7,7 @@ export default function UploadPage() {
   return (
     <>
       <HeaderApps />
-      <main className="bg-[var(--primary)] min-h-screen flex justify-center items-center px-4 py-8">
+      <main className="bg-[#E6FFF9] min-h-screen flex justify-center items-center px-4 py-8">
         <ReceiptUploader />
       </main>
     </>

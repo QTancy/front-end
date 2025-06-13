@@ -76,7 +76,6 @@ export default function Sidebar({ isOpen, onClose }) {
             height={50}
           />
         </div>
-        <h3 className="text-white font-semibold mb-4 mt-4">Page</h3>
         <div className="flex flex-col gap-2">
           <Link
             href="/"

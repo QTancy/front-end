@@ -12,10 +12,10 @@ export default function WhyQTancySection() {
       {/* Title */}
       <div className="max-w-2xl">
         <h2 className="text-4xl md:text-6xl text-black font-normal mb-2" style={{ fontFamily: '"Tilt Warp", sans-serif'}}>
-          Why <span className="text-[var(--secondary)]">QTancy?</span>
+          Kenapa <span className="text-[var(--secondary)]">QTancy?</span>
         </h2>
         <p className="text-base md:text-lg text-black" style={{ fontFamily: '"Tilt Neon", sans-serif'}}>
-          Our website simplifies everything for you—because managing receipts manually is time-consuming and prone to errors.
+        Situs web kami menyederhanakan segalanya untuk Anda—karena mengelola struk secara manual memakan waktu dan rentan terhadap kesalahan.
         </p>
       </div>
 
@@ -25,8 +25,8 @@ export default function WhyQTancySection() {
         <div className="border-2 border-[var(--secondary)] rounded-xl p-6 flex flex-col items-center text-center">
           <Image src={carbon} alt="Carbon Icon" width={48} height={48} className="mb-4" />
           <p className="font-semibold font-poppins text-gray-800">
-            Snap your receipts and digitize<br />
-            them in seconds.
+            Foto struk dan digitalisasi<br />
+            dalam hitungan detik.
           </p>
         </div>
 
@@ -34,8 +34,8 @@ export default function WhyQTancySection() {
         <div className="border-2 border-[var(--secondary)] rounded-xl p-6 flex flex-col items-center text-center">
           <Image src={solar} alt="Solar Icon" width={48} height={48} className="mb-4" />
           <p className="font-semibold font-poppins text-gray-800">
-            Get clear insights to track spending<br />
-            and sales effortlessly.
+            Dapatkan wawasan jelas untuk melacak pengeluaran.<br />
+            
           </p>
         </div>
 
@@ -43,8 +43,8 @@ export default function WhyQTancySection() {
         <div className="border-2 border-[var(--secondary)] rounded-xl p-6 flex flex-col items-center text-center">
           <Image src={vector} alt="Vector Icon" width={48} height={48} className="mb-4" />
           <p className="font-semibold font-poppins text-gray-800">
-            Make smarter business<br />
-            decisions with real-time data.
+            Buat bisnis yang cerdas<br />
+            berdasarkan keputusan real-time.
           </p>
         </div>
       </div>

@@ -40,6 +40,11 @@
   }
 }
 
+html, body {
+  overflow-x: hidden; /* Sembunyikan scrollbar horizontal */
+  width: 100%; /* Pastikan lebar 100% */
+}
+
 body {
   overflow-x: hidden;
   background: white;

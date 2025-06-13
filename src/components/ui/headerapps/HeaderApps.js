@@ -1,8 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import profilePic from '@/icons/profile-picture.svg';
-import AppLogo from '@/icons/icon-logo.svg';
 import QTancyFooterLogo from '@/icons/qtancy-logo-footer.svg';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -42,23 +40,17 @@ export default function HeaderApps() {
       cancelButtonText: 'Batal',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Hapus token dari localStorage
         localStorage.removeItem('token');
-        // Optional: Jika ada item lain yang berkaitan dengan sesi, hapus juga
-        // localStorage.removeItem('user_id');
-        // localStorage.removeItem('user_email');
-
-        // Tampilkan pesan sukses
+        
         Swal.fire({
           title: 'Berhasil Logout!',
           text: 'Anda telah berhasil keluar dari akun Anda.',
           icon: 'success',
-          timer: 1500, // Otomatis tutup setelah 1.5 detik
+          timer: 1500, 
           timerProgressBar: true,
           showConfirmButton: false,
         }).then(() => {
-          // Arahkan pengguna ke halaman login atau halaman utama
-          router.push('/sign-in'); // Ganti dengan path halaman login Anda
+          router.push('/'); 
         });
       }
     });
