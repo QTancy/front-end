@@ -15,7 +15,7 @@ export default function SignUpForm() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
   const formContainerRef = useRef(null);
@@ -34,10 +34,12 @@ export default function SignUpForm() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    e.preventDefault();
     setIsLoading(true);
     setError(null);
 
     try {
+      await signUp(name, email, password);
       await signUp(name, email, password);
       Swal.fire({
         title: "Sign Up Berhasil!",
@@ -56,9 +58,10 @@ export default function SignUpForm() {
         title: "Gagal Sign Up!",
         text: error.message || 'Terjadi kesalahan saat sign up. Silakan coba lagi.',
       });
-    } finally { 
+    } finally {
       setIsLoading(false);
     }
+  };
   };
 
   return (

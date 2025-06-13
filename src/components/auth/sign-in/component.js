@@ -13,7 +13,7 @@ import gsap from 'gsap';
 export default function SignInForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
   const formContainerRef = useRef(null);
@@ -31,6 +31,7 @@ export default function SignInForm() {
   }, []);
 
   const handleSignIn = async (e) => {
+    e.preventDefault();
     e.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -55,13 +56,15 @@ export default function SignInForm() {
     } catch (error) { 
       setError(error.message || 'Terjadi kesalahan saat sign in. Silakan coba lagi.');
       Swal.fire({
-        icon: "error",
-        title: "Gagal Sign In!",
-        text: error.message || 'Terjadi kesalahan saat sign in. Silakan coba lagi.',
+        icon: 'error',
+        title: 'Gagal Sign In!',
+        text:
+          error.message || 'Terjadi kesalahan saat sign in. Silakan coba lagi.',
       });
-    } finally { 
+    } finally {
       setIsLoading(false);
     }
+  };
   };
 
   return (
