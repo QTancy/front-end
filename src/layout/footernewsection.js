@@ -16,7 +16,7 @@ const FooterSection = () => {
 
           {/* Heading */}
           <h2 className="text-lg md:text-xl font-light font-['Tilt_Warp'] text-white">
-            Get started to up your business with <br /> personal AI manager
+            Mulai bangun bisnis anda dengan <br /> personal AI manajer 
           </h2>
 
           {/* Email Form */}
@@ -39,23 +39,19 @@ const FooterSection = () => {
               </span>
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Masukkan Email Anda!"
                 className="outline-none w-full text-black bg-transparent"
               />
             </div>
             <button className="bg-black text-white px-6 py-2 rounded-full font-semibold hover:bg-gray-800 mt-2 md:mt-0">
-              Try Now!
+              Coba Sekarang!
             </button>
           </div>
         </div>
       </section>
 
       {/* Navigation */}
-      <div className="bg-[#4356E0] py-4 flex justify-center gap-10 text-sm text-white">
-        <a href="#">Home</a>
-        <a href="#">Services</a>
-        <a href="#">FAQ</a>
-      </div>
+      
 
       {/* Footer Section */}
       <footer className="bg-black text-white text-sm">

@@ -7,7 +7,7 @@ export default function QrepPage() {
   return (
     <>
       <HeaderApps />
-      <main className="bg-[var(--primary)] min-h-screen p-6">
+      <main className="bg-[#E6FFF9] min-h-screen p-6">
         <ReceiptAnalyse />
       </main>
     </>

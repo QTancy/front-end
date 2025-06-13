@@ -1,6 +1,6 @@
+
 import HeadNavigation from '@/components/header/head-home';
 import AnimatedSection from '@/components/ui/wrapper/animation-wrapper';
-import RootWraper from '@/components/ui/wrapper/root-wrapper';
 import WhyQTancySection from '@/layout/functionsection';
 import HeroSection from '@/layout/herosection';
 import FooterTeam from '@/layout/teamsection';
@@ -12,7 +12,7 @@ import Head from 'next/head';
 
 export default function Home() {
   return (
-    <div className="w-full">
+    <div className="w-full overflow-x-hidden">
       <Head>
         <link rel='icon' href='./favicon.ico' />
       </Head>
@@ -21,37 +21,31 @@ export default function Home() {
         <HeadNavigation />
       </div>
 
-      {/* HERO SECTION */}
+      {/* Konten Utama */}
       <AnimatedSection animationType="fadeUp">
         <HeroSection />
       </AnimatedSection>
 
-      {/* OUR TEAM SECTION */}
-      <AnimatedSection animationType="fadeUp" id="our-team-section"> {/* Tambahkan ID ini */}
+      <AnimatedSection animationType="fadeUp" id="our-team-section">
         <FooterTeam />
       </AnimatedSection>
 
-      {/* WHY QTANCY / FUNCTION SECTION */}
-      <AnimatedSection animationType='fadeRight' id="why-qtancy-section"> {/* Tambahkan ID ini */}
+      <AnimatedSection animationType='fadeRight' id="why-qtancy-section">
         <WhyQTancySection/>
       </AnimatedSection>
 
-      {/* OUR PRODUCT SECTION - QCAP */}
-      <AnimatedSection animationType='fadeLeft' id="qcap-product-section"> {/* Tambahkan ID ini */}
+      <AnimatedSection animationType='fadeLeft' id="qcap-product-section">
         <QcapFunctionSection/>
       </AnimatedSection>
 
-      {/* OUR PRODUCT SECTION - QREP */}
-      <AnimatedSection animationType='fadeRight' id="qrep-product-section"> {/* Tambahkan ID ini */}
+      <AnimatedSection animationType='fadeRight' id="qrep-product-section">
         <QrepFunctionSection/>
       </AnimatedSection>
 
-      {/* FAQ NEW SECTION */}
-      <AnimatedSection animationType='fadeUp' id="faq-section"> {/* Tambahkan ID ini */}
+      <AnimatedSection animationType='fadeUp' id="faq-section">
         <FaqNewSection/>
       </AnimatedSection>
 
-      {/* FAQ NEW SECTION */}
       <AnimatedSection animationType='fadeUp'>
         <Footer/>
       </AnimatedSection>
