@@ -1,4 +1,5 @@
 'use server'
+import { cookies } from "next/headers"
 const BASE_URL = process.env.QTANCY_URL
 
 export async function signUp(name, email, password) {
@@ -35,7 +36,7 @@ export async function signIn(email, password) {
         })
 
         const data = await response.json()
-
+        
         if(!response.ok) { 
             throw new Error(data.message || 'Sign In Gagal!')
         }

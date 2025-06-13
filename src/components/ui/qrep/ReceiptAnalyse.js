@@ -16,7 +16,7 @@ import {
 } from '@/icons';
 import Image from 'next/image';
 import style from './style.css';
-import { fetchData } from '@/api/qrep';
+
 
 export default function ReceiptAnalyse() {
   // State untuk data dan filter
@@ -75,7 +75,16 @@ export default function ReceiptAnalyse() {
       setLoading(true);
       setError(null);
       try {
-          const apiReceipts = await fetchData()
+          const BASE_URL = "https://qtancy-model-295865298963.asia-southeast2.run.app"
+          const token = localStorage.getItem("token");
+          const response = await fetch(`${BASE_URL}/receipts/my_receipts`, {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          const apiReceipts = await response.json();
           console.log("Data mentah dari API:", apiReceipts);
           if (!apiReceipts || apiReceipts.length === 0) {
             setLoading(false);
